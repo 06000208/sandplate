@@ -27,9 +27,6 @@ const client = new Client({
         Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
         // Intents.FLAGS.DIRECT_MESSAGE_TYPING,
     ],
-    disableMentions: "all",
-    // This changes the default value for the equivalent message option, good practice imo
-    // https://discord.js.org/#/docs/main/stable/typedef/MessageOptions?scrollTo=disableMentions
 });
 
 // Token validation (config)
