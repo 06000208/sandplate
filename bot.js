@@ -27,6 +27,12 @@ const client = new Client({
         Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
         // Intents.FLAGS.DIRECT_MESSAGE_TYPING,
     ],
+    allowedMentions: {
+        parse: [],
+        users: [],
+        roles: [],
+        repliedUser: true,
+    },
 });
 
 // Token validation (config)
