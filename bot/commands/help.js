@@ -1,5 +1,5 @@
 const CommandBlock = require("../../modules/CommandBlock");
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, Formatters: { codeBlock } } = require("discord.js");
 const log = require("../../modules/log");
 const { isArray } = require("lodash");
 
@@ -21,7 +21,7 @@ module.exports = new CommandBlock({
         const commands = client.commands.cache.filter(command => commandPredicate(message, command));
         /** @type {Array<String>} */
         const names = commands.map(command => command.names[0]);
-        const text = `🔍 To query command info, use \`${this.names[0]} ${this.usage}\`\n\`\`\`\n${names.join(", ")}\n\`\`\``;
+        const text = `🔍 To query command info, use \`${this.names[0]} ${this.usage}\`\n${codeBlock(names.join(", "))}`;
         if (text.length > 1900) return log.warn("[help] The command list has exceeded 1900 characters in length and is no longer usable!");
         const embed = new MessageEmbed()
             .setTitle("Command List")

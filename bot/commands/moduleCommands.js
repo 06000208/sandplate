@@ -1,3 +1,4 @@
+const { Formatters: { codeBlock } } = require("discord.js");
 const CommandBlock = require("../../modules/CommandBlock");
 const Response = require("../../modules/Response");
 const log = require("../../modules/log");
@@ -60,7 +61,7 @@ module.exports = [
         const filePath = content.substring(choice.length).trim();
         if (!filePath.length) return message.channel.send(`A path is required\nUsage: \`${this.names[0]} ${this.usage}\``);
         const loadResult = client.handler.requireModule(client[constructProperty], filePath, false);
-        return message.channel.send(`\`\`\`\n${loadResult.message}\n\`\`\``);
+        return message.channel.send(codeBlock(loadResult.message));
     }),
     new CommandBlock({
         names: ["unload"],
@@ -75,7 +76,7 @@ module.exports = [
         if (!constructProperty) return message.channel.send(`Unknown construct "${choice}"\nUsage: \`${this.names[0]} ${this.usage}\``);
         const pathsResult = resolveInputToPaths(client, constructProperty, content, choice);
         const unloadResult = isArray(pathsResult.value) ? client.handler.unloadMultipleModules(client[constructProperty], pathsResult.value) : client.handler.unloadModule(client[constructProperty], pathsResult.value);
-        return message.channel.send(`\`\`\`\n${pathsResult.message}\n${unloadResult.message}\n\`\`\``);
+        return message.channel.send(codeBlock(pathsResult.message + "\n" + unloadResult.message));
     }),
     new CommandBlock({
         names: ["reload"],
@@ -91,9 +92,9 @@ module.exports = [
         const pathsResult = resolveInputToPaths(client, constructProperty, content, choice);
         if (!pathsResult.value) return message.channel.send(`A path or name is required\nIf targeting anonymous blocks, use \`unload\` instead\nUsage: \`${this.names[0]} ${this.usage}\``);
         const unloadResult = isArray(pathsResult.value) ? client.handler.unloadMultipleModules(client[constructProperty], pathsResult.value) : client.handler.unloadModule(client[constructProperty], pathsResult.value);
-        if (!unloadResult.success || unloadResult.error) return message.channel.send(`\`\`\`\n${pathsResult.message}\n${unloadResult.message}\n\`\`\``);
+        if (!unloadResult.success || unloadResult.error) return message.channel.send(codeBlock(pathsResult.message + "\n" + unloadResult.message));
         const loadResult = isArray(pathsResult.value) ? client.handler.requireMultipleModules(client[constructProperty], pathsResult.value, false) : client.handler.requireModule(client[constructProperty], pathsResult.value, false);
-        return message.channel.send(`\`\`\`\n${pathsResult.message}\n${unloadResult.message}\n${loadResult.message}\n\`\`\``);
+        return message.channel.send(codeBlock(pathsResult.message + "\n" + unloadResult.message + "\n" + loadResult.message));
     }),
     new CommandBlock({
         names: ["enable"],
@@ -111,7 +112,7 @@ module.exports = [
         const loadResult = client.handler.requireModule(client[constructProperty], filePath, false);
         // Putting the path in an array prevents periods from being interpreted as traversing the db
         if (loadResult.value) client.handler.modules.set([client.handler.trimPath(loadResult.value)], true).write();
-        return message.channel.send(`\`\`\`\n${loadResult.message}\n${loadResult.value ? "Enabled the module" : ""}\n\`\`\``);
+        return message.channel.send(codeBlock(loadResult.message + "\n" + loadResult.value ? "Enabled the module" : ""));
     }),
     new CommandBlock({
         names: ["disable"],
@@ -131,6 +132,6 @@ module.exports = [
             // Putting the path in an array prevents periods from being interpreted as traversing the db
             client.handler.modules.set([client.handler.trimPath(resolvedPath)], false).write();
         }, unloadResult.value);
-        return message.channel.send(`\`\`\`\n${pathsResult.message}\n${unloadResult.message}\n${unloadResult.value ? `Disabled ${multipleModules ? `${unloadResult.value.length} modules` : "1 module"}` : ""}\n\`\`\``);
+        return message.channel.send(codeBlock(pathsResult.message + "\n" + unloadResult.message + "\n" + unloadResult.value ? "Disabled " + multipleModules ? `${unloadResult.value.length} modules` : "1 module" : ""));
     }),
 ];

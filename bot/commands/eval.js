@@ -2,6 +2,7 @@ const CommandBlock = require("../../modules/CommandBlock");
 const log = require("../../modules/log");
 const { inspect } = require("util");
 const { isNil, isString } = require("lodash");
+const { Formatters: { codeBlock } } = require("discord.js");
 
 /*
 This command provides arbitrary javascript evaluation, and is disabled by default
@@ -51,6 +52,6 @@ module.exports = new CommandBlock({
         return message.channel.send(`Failed to evaluate javascript, an error occurred: \`${error.message}\``);
     }
     if (cleaned && cleaned.length <= 1500) {
-        message.channel.send(`\`\`\`\n${cleaned}\n\`\`\``);
+        message.channel.send(codeBlock(cleaned));
     }
 });

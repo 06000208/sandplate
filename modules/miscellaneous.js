@@ -5,7 +5,7 @@
 
 const { promisify } = require("util");
 const { isArray, isString, isFinite } = require("lodash");
-const { Permissions } = require("discord.js");
+const { Permissions, Formatters: { codeBlock } } = require("discord.js");
 
 /**
  * Lets you "pause" for X amount of time, in milliseconds. (This is setTimeout's promise based custom variant)
@@ -21,15 +21,15 @@ module.exports.sleep = promisify(setTimeout);
  * Just a small shortcut to JSON.stringify with optional discord code block wrapping on the returned string
  * @param {Object} object
  * @param {number} [whitespace=2]
- * @param {boolean} [codeBlock=false]
+ * @param {boolean} [useCodeBlock=false]
  * @example
  * const car = {type:"Fiat", model:"500", color:"white"};
  * lovely(car); // returned string isn't wrapped, whitespace defaults to 2
  * lovely(car, 4, true); // returns string wrapped in discord codeBlock, uses 4 spaces of whitespace
  */
-module.exports.lovely = function(object, whitespace = 2, codeBlock = false) {
+module.exports.lovely = function(object, whitespace = 2, useCodeBlock = false) {
     const formatted = JSON.stringify(object, null, whitespace);
-    return codeBlock ? `\`\`\`json\n${formatted}\n\`\`\`` : formatted;
+    return useCodeBlock ? codeBlock("json", formatted) : formatted;
 };
 
 /**
