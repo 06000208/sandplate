@@ -28,7 +28,7 @@ module.exports = new CommandBlock({
             .setDescription(text);
         const color = client.config.get("metadata.color").value();
         if (color) embed.setColor(color);
-        return message.channel.send(embed);
+        return message.channel.send({ embeds: [embed] });
     } else {
         const name = content.toLowerCase();
         if (!client.commands.index.has(name)) return message.channel.send(`Command \`${content}\` not found`);
@@ -50,6 +50,6 @@ module.exports = new CommandBlock({
         if (command.names.length > 1) embed.setFooter(command.names.slice(1).join(", "));
         const color = client.config.get("metadata.color").value();
         if (color) embed.setColor(color);
-        return message.channel.send(embed);
+        return message.channel.send({ embeds: [embed] });
     }
 });

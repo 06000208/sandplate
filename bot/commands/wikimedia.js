@@ -29,12 +29,12 @@ module.exports = new CommandBlock({
     if (color) embed.setColor(color);
     if (has(page, "missing")) {
         embed.setTitle("No page").setDescription("The queried page does not exist.");
-        return message.channel.send(embed);
+        return message.channel.send({ embeds: [embed] });
     }
     embed.setURL(`https://commons.wikimedia.org/w/index.php?curid=${page.pageid}`);
     if (!has(page, "imageinfo")) {
         embed.setTitle(page.title).setDescription("The queried page is not a file.");
-        return message.channel.send(embed);
+        return message.channel.send({ embeds: [embed] });
     }
     const { timestamp, url } = page.imageinfo[0];
     let title = page.title.replace(/\.[^/.]+$/, "").substring(5);
@@ -45,5 +45,5 @@ module.exports = new CommandBlock({
     } else {
         embed.setDescription("Cannot display this file, use the above link to view.");
     }
-    return message.channel.send(embed);
+    return message.channel.send({ embeds: [embed] });
 });

@@ -32,5 +32,5 @@ module.exports = new CommandBlock({
     if (guild.id === message.guild.id) embed.setThumbnail(guild.iconURL({ format: "png" }));
     const color = client.config.get("metadata.color").value();
     if (color) embed.setColor(color);
-    return message.channel.send(embed);
+    return message.channel.send({ embeds: [embed] });
 });

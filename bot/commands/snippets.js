@@ -28,7 +28,7 @@ const snippets = {
             .setDescription(`${client.user} v${package.version}\n[node.js](https://nodejs.org/) ${process.version}\n[discord.js](https://discord.js.org/) v${Discord.version}\n[memory](https://nodejs.org/api/process.html#process_process_memoryusage) ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB\n[platform](https://nodejs.org/api/process.html#process_process_platform) ${process.platform}\n[sandplate](https://github.com/06000208/sandplate)`);
         const color = client.config.get("metadata.color").value();
         if (color) embed.setColor(color);
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
     },
     emoji: function(client, message, content, args) {
         if (message.channel.type === "dm") return message.channel.send("No custom emojis for direct messages");
@@ -64,7 +64,7 @@ const snippets = {
             .setFooter("Italic permissions are channel overwrites");
         const color = client.config.get("metadata.color").value();
         if (color) embed.setColor(color);
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
     },
     user: async function(client, message, content, args) {
         const application = await client.fetchApplication();
@@ -81,7 +81,7 @@ const snippets = {
             .setTimestamp(client.user.createdTimestamp);
         const color = client.config.get("metadata.color").value();
         if (color) embed.setColor(color);
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
     },
 };
 
