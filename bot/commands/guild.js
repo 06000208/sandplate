@@ -24,7 +24,7 @@ module.exports = new CommandBlock({
         .setTitle(guild.name)
         .addFields(
             { name: "Link", value: `[Jump](https://discordapp.com/channels/${guild.id}/)`, inline: true },
-            { name: "Owner", value: `<@${guild.ownerID}>`, inline: true },
+            { name: "Owner", value: `<@${guild.ownerId}>`, inline: true },
         )
         .setFooter(guild.id)
         .setTimestamp(guild.createdTimestamp);

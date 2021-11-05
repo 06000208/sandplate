@@ -16,7 +16,7 @@ module.exports = new CommandBlock({
     const guild = client.guilds.cache.get(content);
     if (!guild.available) return message.channel.send("The guild was unavailable and could not be interacted with. This is indicative of a server outage.");
     if (guild.deleted) return message.channel.send(`I have already left or been kicked from "${guild.name}" (${guild.id})`);
-    if (client.user.id === guild.ownerID) return message.channel.send("I own the specified guild and cannot leave without transferring ownership.");
+    if (client.user.id === guild.ownerId) return message.channel.send("I own the specified guild and cannot leave without transferring ownership.");
     try {
         await guild.leave();
     } catch (error) {
