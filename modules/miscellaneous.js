@@ -1,11 +1,11 @@
 /**
- * This module contains a bunch of exported functions. Some are useful in general, others are for convenience and code clarity, as it's often simpler for logic to be a reusable function rather than complicated alternatives or implementing the logic multiple times where needed to achieve the same result.
+ * This module contains a bunch of exported functions. Some are useful in general, others are for convenience and code clarity, as its sometimes simpler for logic to be a reusable function rather than writing code multiple times where needed to achieve the same result
  * @module miscellaneous
  */
 
 const { promisify } = require("util");
 const { isArray, isString, isFinite } = require("lodash");
-const { Permissions, Formatters: { codeBlock } } = require("discord.js");
+const { Permissions, Formatters: { codeBlock }, BitField } = require("discord.js");
 
 /**
  * Lets you "pause" for X amount of time, in milliseconds. (This is setTimeout's promise based custom variant)
@@ -49,12 +49,15 @@ module.exports.isArrayOfStrings = function(value, checkLength = true) {
 };
 
 /**
- * Checks if a value is resolvable as a permission. Does *not* include circular array checking logic. https://discord.js.org/#/docs/main/master/typedef/PermissionResolvable
+ * Checks if a value is resolvable to a permission number
+ * @see https://discord.js.org/#/docs/main/stable/typedef/PermissionResolvable
  * @param {*} value
- * @returns {boolean} Returns `true` if value is resolvable as a permission, else `false`
+ * @returns {boolean} Returns `true` if value is a PermissionResolvable, else `false`
  */
 module.exports.isPermissionResolvable = function(value) {
-    if (isString(value) || isArray(value) || isFinite(value) || value instanceof Permissions) {
+    if (isArray(value)) {
+        return value.every(module.exports.isPermissionResolvable);
+    } else if (isString(value) || typeof value === "bigint" || value instanceof Permissions) {
         return true;
     } else {
         return false;
