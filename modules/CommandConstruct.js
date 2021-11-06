@@ -118,19 +118,19 @@ class CommandConstruct extends BaseConstruct {
                 this.client.emit("nsfwRejection", command, message);
                 return;
             }
-            if (!command.checkPermissions(message, command.clientPermissions, true, false)) {
+            if (!CommandBlock.checkMessagePermissions(message, command.clientPermissions, true, false)) {
                 this.client.emit("permissionRejection", command, message, command.clientPermissions, true, false);
                 return;
             }
-            if (!command.checkPermissions(message, command.clientChannelPermissions, true, true)) {
+            if (!CommandBlock.checkMessagePermissions(message, command.clientChannelPermissions, true, true)) {
                 this.client.emit("permissionRejection", command, message, command.clientChannelPermissions, true, true);
                 return;
             }
-            if (!command.checkPermissions(message, command.userPermissions, false, false)) {
+            if (!CommandBlock.checkMessagePermissions(message, command.userPermissions, false, false)) {
                 this.client.emit("permissionRejection", command, message, command.userPermissions, false, false);
                 return;
             }
-            if (!command.checkPermissions(message, command.userChannelPermissions, false, true)) {
+            if (!CommandBlock.checkMessagePermissions(message, command.userChannelPermissions, false, true)) {
                 this.client.emit("permissionRejection", command, message, command.userChannelPermissions, false, true);
                 return;
             }

@@ -3,8 +3,9 @@ const { MessageEmbed, Formatters: { codeBlock } } = require("discord.js");
 const log = require("../../modules/log");
 const { isArray } = require("lodash");
 
+/** @todo discordjs-v13: This might be nice exported from somewhere else */
 const commandPredicate = function(message, command) {
-    if (!command.checkPermissions(message, command.userPermissions, false, false)) return false;
+    if (!CommandBlock.checkMessagePermissions(message, command.userPermissions, false, false)) return false;
     if (!command.checkLocked(message)) return false;
     return true;
 };
