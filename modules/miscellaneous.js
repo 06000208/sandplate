@@ -65,6 +65,22 @@ module.exports.isPermissionResolvable = function(value) {
 };
 
 /**
+ * Checks if a value is resolvable to a bitfield
+ * @see https://discord.js.org/#/docs/main/stable/typedef/BitFieldResolvable
+ * @param {*} value
+ * @returns {boolean} Returns `true` if value is a BitFieldResolvable, else `false`
+ */
+module.exports.isBitFieldResolvable = function(value) {
+    if (isArray(value)) {
+        return !value.length || value.every(module.exports.isBitFieldResolvable);
+    } else if (isString(value) || isFinite(value) || typeof value === "bigint" || value instanceof BitField) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
+/**
  * Logic for easier appending to arrays stored in collections
  * @param {Collection} collection
  * @param {*} key
