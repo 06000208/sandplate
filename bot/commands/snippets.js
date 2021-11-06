@@ -1,9 +1,12 @@
 const CommandBlock = require("../../modules/CommandBlock");
 const log = require("../../modules/log");
 const chalk = require("chalk");
-const { MessageEmbed, Permissions } = require("discord.js");
 const package = require("../../package.json");
-const { version: discordVersion, Team } = require("discord.js");
+const { version: discordVersion, Team, MessageEmbed, Permissions, Permissions: { FLAGS: {
+    VIEW_CHANNEL,
+    SEND_MESSAGES,
+    EMBED_LINKS,
+} } } = require("discord.js");
 const { randomBytes } = require("crypto");
 const moment = require("moment");
 
@@ -95,7 +98,7 @@ module.exports = new CommandBlock({
     description: null,
     usage: "<snippet name> [args]",
     locked: "hosts",
-    clientChannelPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
+    clientChannelPermissions: [VIEW_CHANNEL, SEND_MESSAGES, EMBED_LINKS],
 }, function(client, message, content, [choice, args]) {
     const keys = Object.keys(snippets);
     const list = "`" + keys.join("`, `") + "`";

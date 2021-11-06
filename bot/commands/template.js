@@ -1,5 +1,9 @@
 const CommandBlock = require("../../modules/CommandBlock");
 const log = require("../../modules/log");
+const { Permissions: { FLAGS: {
+    VIEW_CHANNEL,
+    SEND_MESSAGES,
+} } } = require("discord.js");
 
 // all keys other than names can be set to null or omitted for default value
 // refer to CommandBlock.js for documentation
@@ -13,7 +17,7 @@ module.exports = new CommandBlock({
     nsfw: false,
     locked: false,
     clientPermissions: null,
-    clientChannelPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES"],
+    clientChannelPermissions: [VIEW_CHANNEL, SEND_MESSAGES],
     userPermissions: null,
     userChannelPermissions: null,
 }, function(client, message, content, args) {

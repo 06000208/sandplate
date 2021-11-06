@@ -1,5 +1,12 @@
 const CommandBlock = require("../../modules/CommandBlock");
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, Permissions: { FLAGS: {
+    VIEW_CHANNEL,
+    SEND_MESSAGES,
+    EMBED_LINKS,
+    ATTACH_FILES,
+    USE_EXTERNAL_EMOJIS,
+    ADD_REACTIONS,
+} } } = require("discord.js");
 const moment = require("moment");
 const fetch = require("node-fetch");
 const fileTypes = [".png", ".jpg", ".jpeg", ".webp", ".gif"];
@@ -12,7 +19,14 @@ module.exports = new CommandBlock({
     usage: "[page id]",
     nsfw: true,
     locked: false,
-    clientChannelPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS", "ATTACH_FILES", "ADD_REACTIONS"],
+    clientChannelPermissions: [
+        VIEW_CHANNEL,
+        SEND_MESSAGES,
+        EMBED_LINKS,
+        ATTACH_FILES,
+        USE_EXTERNAL_EMOJIS,
+        ADD_REACTIONS,
+    ],
 }, async function(client, message, content, args) {
     if (client.cookies.has(`wm-rate-limit-${message.author.id}`)) {
         if (moment().isBefore(client.cookies.get(`wm-rate-limit-${message.author.id}`))) {

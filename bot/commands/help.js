@@ -1,5 +1,9 @@
 const CommandBlock = require("../../modules/CommandBlock");
-const { MessageEmbed, Formatters: { codeBlock } } = require("discord.js");
+const { MessageEmbed, Formatters: { codeBlock }, Permissions: { FLAGS: {
+    VIEW_CHANNEL,
+    SEND_MESSAGES,
+    EMBED_LINKS,
+} } } = require("discord.js");
 const log = require("../../modules/log");
 const { isArray } = require("lodash");
 
@@ -15,7 +19,7 @@ module.exports = new CommandBlock({
     summary: "Lists commands & provides command info",
     description: "Provides a list of commands or info about individual commands when queried.",
     usage: "[command]",
-    clientChannelPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
+    clientChannelPermissions: [VIEW_CHANNEL, SEND_MESSAGES, EMBED_LINKS],
 }, function(client, message, content, args) {
     if (!content) {
         /** @type {Collection<Snowflake, CommandBlock>} */
