@@ -33,7 +33,7 @@ const snippets = {
         message.channel.send({ embeds: [embed] });
     },
     emoji: function(client, message, content, args) {
-        if (message.channel.type === "dm") return message.channel.send("No custom emojis for direct messages");
+        if (message.channel.type === "DM") return message.channel.send("No custom emojis for direct messages");
         message.channel.send(message.guild.emojis.cache.map(emoji=>emoji.toString()).join(" "));
     },
     ascii: function(client, message, content, args) {

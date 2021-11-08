@@ -199,7 +199,7 @@ class CommandBlock extends BaseBlock {
      * @returns {boolean}
      */
     checkNotSafeForWork(message) {
-        if (message.channel.type === "dm") return true;
+        if (message.channel.type === "DM") return true;
         if (!this.nsfw) return true;
         return message.channel.nsfw;
     }
@@ -241,7 +241,7 @@ class CommandBlock extends BaseBlock {
         // Null indicates no permissions to check for, hence the check passes
         if (!permissions) return true;
         // No concept of permissions in direct messages unfortunately
-        if (message.channel.type === "dm") return true;
+        if (message.channel.type === "DM") return true;
         const member = useClient ? message.guild.me : message.member;
         if (useChannel) {
             return message.channel.permissionsFor(member, true).has(permissions, true);
