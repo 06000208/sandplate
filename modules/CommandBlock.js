@@ -7,7 +7,7 @@ const { defaultCommandData } = require("./defaultData");
 
 /**
  * Data regarding the command such as it's names and metadata
- * @todo discordjs-v13: This typedef needs rewritten and moved elsewhere
+ * @todo This typedef needs rewritten and moved elsewhere
  * @typedef {Object} CommandData
  * @property {[string]} names The CommandBlock's unique names
  * @property {(string|[string])} identity Deprecated property. The CommandBlock's unique names
@@ -234,7 +234,7 @@ class CommandBlock extends BaseBlock {
      * @param {boolean} [useClient=true] Whether to check the client or message author
      * @param {boolean} [useChannel=false] Whether or not to take into account channel overrides
      * @returns {boolean}
-     * @todo discordjs-v13: This function might be better off somewhere else
+     * @todo This function would be better somewhere else
      */
     static checkMessagePermissions(message, permissions, useClient = true, useChannel = false) {
         if (!(message instanceof Message)) throw new TypeError("checkMessagePermissions message parameter must be an instance of Message");

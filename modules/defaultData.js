@@ -84,7 +84,7 @@ module.exports.disabledModules = [
  * Default CommandBlock property data
  * These may be moved to static properties of CommandBlock, but [expected year for feature publication is 2022](https://github.com/tc39/proposals/blob/master/finished-proposals.md) and I'm not switching to babel parser yet
  * See documentation for these properties in ./modules/CommandBlock.js
- * @todo discordjs-v13: This needs rewritten and moved elsewhere
+ * @todo This needs rewritten and moved elsewhere
  */
 module.exports.defaultCommandData = {
     summary: null,

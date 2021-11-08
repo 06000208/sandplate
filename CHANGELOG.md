@@ -10,7 +10,7 @@
 - ⚠️ In 0.0.8 and above, much of the how configuration works will change. See [issue #35](https://github.com/06000208/sandplate/issues/35) for details.
 
 - ⚠️ In 0.0.8 and above, sandplate will use [ECMAScript modules](https://nodejs.org/api/esm.html) rather than [commonjs modules](https://nodejs.org/api/modules.html).
-  - Updated all npm dependencies to latest major, except for lowdb v3, discord v13, and node-fetch v3 as these will require ESM migration and be handled in 0.0.8
+  - Updated all npm dependencies to latest major, except for lowdb v3, discordjs v13, and node-fetch v3 as these will require ESM migration and be handled in 0.0.8
 
 - Several parts of the bot have received attention, closing [#21](https://github.com/06000208/sandplate/issues/21)
   - Note that the "resolver functions" idea included in that issue [has not been done](https://github.com/06000208/sandplate/issues/21#issuecomment-957185039), and will have it's own in 0.0.8

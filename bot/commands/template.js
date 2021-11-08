@@ -8,6 +8,7 @@ const { Permissions: { FLAGS: {
 // all keys other than names can be set to null or omitted for default value
 // refer to CommandBlock.js for documentation
 
+/** @todo This template should correspond with CommandBlock defaults */
 module.exports = new CommandBlock({
     names: ["template"],
     summary: "An example command",

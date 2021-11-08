@@ -7,7 +7,7 @@ const { MessageEmbed, Formatters: { codeBlock }, Permissions: { FLAGS: {
 const log = require("../../modules/log");
 const { isArray } = require("lodash");
 
-/** @todo discordjs-v13: This might be nice exported from somewhere else */
+/** @todo This would be better exported from somewhere else */
 const commandPredicate = function(message, command) {
     if (!CommandBlock.checkMessagePermissions(message, command.userPermissions, false, false)) return false;
     if (!command.checkLocked(message)) return false;
