@@ -10,7 +10,7 @@
  * @property {boolean} commands.parseUserMessages Whether messages from users are parsed
  * @property {boolean} commands.parseBotMessages Whether messages from bots are parsed
  * @property {boolean} commands.parseSelfMessages Whether messages from the client user are parsed
- * @property {[string]} commands.channelTypes An array of [channel types](https://discord.js.org/#/docs/main/stable/class/TextChannel?scrollTo=type) that this command block may be ran in. Most commonly used to limit commands to guilds or direct messages.
+ * @property {[string]} commands.channelTypes An array of [channel types](https://discord.js.org/#/docs/main/stable/typedef/ChannelType) used to limit all command blocks. Most commonly used to limit commands to guilds or direct messages.
  * @property {Object} events Config options concerning discord.js events
  * @property {string} events.directory Path of a folder where modules are located
  * @property {Object} metadata Metadata for the bot such as configurable visuals, links, and invites
@@ -42,7 +42,7 @@ module.exports.config = {
         "parseUserMessages": true,
         "parseBotMessages": false,
         "parseSelfMessages": false,
-        "channelTypes": ["dm", "text", "news"],
+        "channelTypes": ["DM", "GUILD_TEXT", "GUILD_NEWS", "GUILD_NEWS_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_PRIVATE_THREAD"],
     },
     "events": {
         "directory": "./bot/listeners/",
@@ -83,12 +83,13 @@ module.exports.disabledModules = [
  * Default CommandBlock property data
  * These may be moved to static properties of CommandBlock, but [expected year for feature publication is 2022](https://github.com/tc39/proposals/blob/master/finished-proposals.md) and I'm not switching to babel parser yet
  * See documentation for these properties in ./modules/CommandBlock.js
+ * @todo discordjs-v13: This needs rewritten and moved elsewhere
  */
 module.exports.defaultCommandData = {
     summary: null,
     description: null,
     usage: null,
-    channelTypes: ["dm", "text", "news"],
+    channelTypes: ["DM", "GUILD_TEXT", "GUILD_NEWS", "GUILD_NEWS_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_PRIVATE_THREAD"],
     nsfw: false,
     locked: false,
     clientPermissions: null,

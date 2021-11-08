@@ -8,13 +8,14 @@ const { Permissions: { FLAGS: {
 // all keys other than names can be set to null or omitted for default value
 // refer to CommandBlock.js for documentation
 
+/** @todo discordjs-v13: This template should correspond with CommandBlock defaults */
 module.exports = [
     new CommandBlock({
         names: ["template_a"],
         summary: null,
         description: null,
         usage: null,
-        channelTypes: ["dm", "text", "news"],
+        channelTypes: ["DM", "GUILD_TEXT", "GUILD_NEWS", "GUILD_NEWS_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_PRIVATE_THREAD"],
         nsfw: false,
         locked: false,
         clientPermissions: null,
@@ -31,7 +32,7 @@ module.exports = [
         summary: null,
         description: null,
         usage: null,
-        channelTypes: ["dm", "text", "news"],
+        channelTypes: ["DM", "GUILD_TEXT", "GUILD_NEWS", "GUILD_NEWS_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_PRIVATE_THREAD"],
         nsfw: false,
         locked: false,
         clientPermissions: null,

@@ -49,8 +49,8 @@ module.exports = new CommandBlock({
             .setTitle(command.names[0])
             .setDescription(command.description || command.summary || "No description provided")
             .addField("Usage", `\`${command.names[0]}${command.usage ? " " + command.usage : ""}\``, true);
-        if (!command.channelTypes.includes("dm")) embed.addField("Direct Messages", "Disallowed", true);
-        if (!command.channelTypes.includes("text")) embed.addField("Guilds", "Disallowed", true);
+        if (!command.channelTypes.includes("DM")) embed.addField("Direct Messages", "Disallowed", true);
+        if (!command.channelTypes.includes("GUILD_TEXT")) embed.addField("Guilds", "Disallowed", true);
         if (command.nsfw) embed.addField("NSFW", "True", true);
         if (command.names.length > 1) embed.setFooter(command.names.slice(1).join(", "));
         const color = client.config.get("metadata.color").value();

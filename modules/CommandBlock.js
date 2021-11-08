@@ -7,13 +7,14 @@ const { defaultCommandData } = require("./defaultData");
 
 /**
  * Data regarding the command such as it's names and metadata
+ * @todo discordjs-v13: This typedef needs rewritten and moved elsewhere
  * @typedef {Object} CommandData
  * @property {[string]} names The CommandBlock's unique names
  * @property {(string|[string])} identity Deprecated property. The CommandBlock's unique names
  * @property {?string} [summary=null]  A summary describing this command block, expected to be only a sentence or so and not use any markdown formatting
  * @property {?string} [description=null] A description describing this command block, can be paragraphs long and include markdown formatting, but should be kept below 1800 characters
  * @property {?string} [usage=null] A string describing expected parameters and usage. There isn't a standard for these laid out yet, but in the default commands <> denotes a required parameter while [] denotes an optional one
- * @property {?[string]} [channelTypes=["dm", "text", "news"]] An array of [channel types](https://discord.js.org/#/docs/main/stable/class/TextChannel?scrollTo=type) that this command block may be ran in. Most commonly used to limit commands to guilds or direct messages.
+ * @property {?[string]} [channelTypes=["DM", "GUILD_TEXT", "GUILD_NEWS", "GUILD_NEWS_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_PRIVATE_THREAD"]] An array of [channel types](https://discord.js.org/#/docs/main/stable/class/TextChannel?scrollTo=type) that this command block may be ran in. Most commonly used to limit commands to guilds or direct messages.
  * @property {?[string]} [scope=["dm", "text", "news"]] Deprecated property. An array of [channel types](https://discord.js.org/#/docs/main/stable/class/TextChannel?scrollTo=type) that this command block may be ran in. Most commonly used to limit commands to guilds or direct messages.
  * @property {?boolean} [nsfw=false] Whether or not this command block may only be ran in a [nsfw channel](https://discord.js.org/#/docs/main/stable/class/TextChannel?scrollTo=nsfw)
  * @property {?(boolean|string|[string])} [locked=false] Access control for commands. Accepts `false` (not locked), `true` (prevents being ran by anyone), user ids, and user group names. Can take any number of user ids and group names via array, mixing allowed.

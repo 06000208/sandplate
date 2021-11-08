@@ -13,7 +13,7 @@ module.exports = new CommandBlock({
     summary: "An example command",
     description: null,
     usage: null,
-    channelTypes: ["dm", "text", "news"],
+    channelTypes: ["DM", "GUILD_TEXT", "GUILD_NEWS", "GUILD_NEWS_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_PRIVATE_THREAD"],
     nsfw: false,
     locked: false,
     clientPermissions: null,
