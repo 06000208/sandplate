@@ -194,7 +194,7 @@ module.exports = [
             return message.channel.send(`Failed to parse JSON: \`${error.message}\``);
         }
         try {
-            await client.user.setPresence(data);
+            client.user.setPresence(data);
         } catch (error) {
             log.error("[set presence]", error);
             message.react(client.config.get("metadata.reactions.negative").value());
@@ -224,7 +224,7 @@ module.exports = [
             }
         }
         try {
-            await client.user.setStatus(status);
+            client.user.setStatus(status);
         } catch (error) {
             log.error("[set status]", error);
             message.react(client.config.get("metadata.reactions.negative").value());
@@ -234,32 +234,32 @@ module.exports = [
         message.react(client.config.get("metadata.reactions.positive").value());
         return message.channel.send(`${!content ? "Reset" : "Updated"} status`);
     }),
-    new CommandBlock({
-        names: ["activity", "setactivity"],
-        summary: "Set the bot's activity",
-        description: "Sets the bot's activity. All four activities are supported (playing, watching, listening, and streaming)",
-        usage: "[type] [text]",
-        locked: "hosts",
-        clientChannelPermissions: [VIEW_CHANNEL, SEND_MESSAGES],
-    }, async function(client, message, content, args) {
-        const data = resolveActivity(client, content, args);
-        if (!data) {
-            message.react(client.config.get("metadata.reactions.negative").value());
-            return message.channel.send("Activity text must be 128 characters or shorter in length");
-        }
-        if (data.activity.type === "STREAMING" && !data.activity.url) {
-            message.react(client.config.get("metadata.reactions.negative").value());
-            return message.channel.send("To use the streaming activity, set `metadata.twitch` in the config to the username of the twitch channel you want to display");
-        }
-        try {
-            await client.user.setPresence(data);
-        } catch (error) {
-            log.error("[set activity]", error);
-            message.react(client.config.get("metadata.reactions.negative").value());
-            return message.channel.send(`Failed to set activity, an error occurred: \`${error.message}\``);
-        }
-        log.info(`${client.user.tag}'s activity has been updated by ${message.author.tag}`);
-        message.react(client.config.get("metadata.reactions.positive").value());
-        return message.channel.send(`${!data.activity.name.length ? "Cleared" : "Updated"} activity`);
-    }),
+    // new CommandBlock({
+    //     names: ["activity", "setactivity"],
+    //     summary: "Set the bot's activity",
+    //     description: "Sets the bot's activity. All four activities are supported (playing, watching, listening, and streaming)",
+    //     usage: "[type] [text]",
+    //     locked: "hosts",
+    //     clientChannelPermissions: [VIEW_CHANNEL, SEND_MESSAGES],
+    // }, async function(client, message, content, args) {
+    //     const data = resolveActivity(client, content, args);
+    //     if (!data) {
+    //         message.react(client.config.get("metadata.reactions.negative").value());
+    //         return message.channel.send("Activity text must be 128 characters or shorter in length");
+    //     }
+    //     if (data.activity.type === "STREAMING" && !data.activity.url) {
+    //         message.react(client.config.get("metadata.reactions.negative").value());
+    //         return message.channel.send("To use the streaming activity, set `metadata.twitch` in the config to the username of the twitch channel you want to display");
+    //     }
+    //     try {
+    //         client.user.setPresence(data);
+    //     } catch (error) {
+    //         log.error("[set activity]", error);
+    //         message.react(client.config.get("metadata.reactions.negative").value());
+    //         return message.channel.send(`Failed to set activity, an error occurred: \`${error.message}\``);
+    //     }
+    //     log.info(`${client.user.tag}'s activity has been updated by ${message.author.tag}`);
+    //     message.react(client.config.get("metadata.reactions.positive").value());
+    //     return message.channel.send(`${!data.activity.name.length ? "Cleared" : "Updated"} activity`);
+    // }),
 ];
