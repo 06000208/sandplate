@@ -2,9 +2,9 @@
 
 ## 0.0.8 (20XX-XX-XX)
 
-_The changelog for this version is incomplete/w.i.p and currently being written in tandem with the development of this version. Things may be incorrect._
+_The changelog for this version is incomplete and being written in tandem with the development of this version. Things may be incorrect._
 
-- ⚠️ Updated discord.js to latest v13.3.1, this comes with breaking changes and different dependencies. Refer discordjs.guide's [Updating from v12 to v13](https://discordjs.guide/additional-info/changes-in-v13.html) for what you'll need to change.
+- ⚠️ Updated discord.js to v13.3.1, this comes with breaking changes and different dependencies. Refer to [Updating from v12 to v13](https://discordjs.guide/additional-info/changes-in-v13.html) for what you'll need to change.
 
 ## 0.0.7 (2021-11-03)
 
