@@ -1,18 +1,20 @@
+const { Message } = require("discord.js");
+const { has, defaultsDeep, isNil, isArray, isPlainObject, isFunction, isString, isBoolean } = require("lodash");
 const BaseBlock = require("./BaseBlock");
 const { isArrayOfStrings, isPermissionResolvable } = require("./miscellaneous");
-const { has, defaultsDeep, isNil, isArray, isPlainObject, isFunction, isString, isBoolean } = require("lodash");
 const log = require("./log");
 const { defaultCommandData } = require("./defaultData");
 
 /**
  * Data regarding the command such as it's names and metadata
+ * @todo This typedef needs rewritten and moved elsewhere
  * @typedef {Object} CommandData
  * @property {[string]} names The CommandBlock's unique names
  * @property {(string|[string])} identity Deprecated property. The CommandBlock's unique names
  * @property {?string} [summary=null]  A summary describing this command block, expected to be only a sentence or so and not use any markdown formatting
  * @property {?string} [description=null] A description describing this command block, can be paragraphs long and include markdown formatting, but should be kept below 1800 characters
  * @property {?string} [usage=null] A string describing expected parameters and usage. There isn't a standard for these laid out yet, but in the default commands <> denotes a required parameter while [] denotes an optional one
- * @property {?[string]} [channelTypes=["dm", "text", "news"]] An array of [channel types](https://discord.js.org/#/docs/main/stable/class/TextChannel?scrollTo=type) that this command block may be ran in. Most commonly used to limit commands to guilds or direct messages.
+ * @property {?[string]} [channelTypes=["DM", "GUILD_TEXT", "GUILD_NEWS", "GUILD_NEWS_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_PRIVATE_THREAD"]] An array of [channel types](https://discord.js.org/#/docs/main/stable/class/TextChannel?scrollTo=type) that this command block may be ran in. Most commonly used to limit commands to guilds or direct messages.
  * @property {?[string]} [scope=["dm", "text", "news"]] Deprecated property. An array of [channel types](https://discord.js.org/#/docs/main/stable/class/TextChannel?scrollTo=type) that this command block may be ran in. Most commonly used to limit commands to guilds or direct messages.
  * @property {?boolean} [nsfw=false] Whether or not this command block may only be ran in a [nsfw channel](https://discord.js.org/#/docs/main/stable/class/TextChannel?scrollTo=nsfw)
  * @property {?(boolean|string|[string])} [locked=false] Access control for commands. Accepts `false` (not locked), `true` (prevents being ran by anyone), user ids, and user group names. Can take any number of user ids and group names via array, mixing allowed.
@@ -197,7 +199,7 @@ class CommandBlock extends BaseBlock {
      * @returns {boolean}
      */
     checkNotSafeForWork(message) {
-        if (message.channel.type === "dm") return true;
+        if (message.channel.type === "DM") return true;
         if (!this.nsfw) return true;
         return message.channel.nsfw;
     }
@@ -227,23 +229,24 @@ class CommandBlock extends BaseBlock {
     }
 
     /**
-     * @param {Discord.Message} message
-     * @param {PermissionResolvable} permissions PermissionResolvable
+     * @param {import("discord.js").Message} message
+     * @param {?import("discord.js").PermissionResolvable} permissions PermissionResolvable, may be null
      * @param {boolean} [useClient=true] Whether to check the client or message author
      * @param {boolean} [useChannel=false] Whether or not to take into account channel overrides
      * @returns {boolean}
+     * @todo This function would be better somewhere else
      */
-    checkPermissions(message, permissions, useClient = true, useChannel = false) {
-        if (message.channel.type === "dm") return true;
+    static checkMessagePermissions(message, permissions, useClient = true, useChannel = false) {
+        if (!(message instanceof Message)) throw new TypeError("checkMessagePermissions message parameter must be an instance of Message");
+        // Null indicates no permissions to check for, hence the check passes
         if (!permissions) return true;
-        /** @type {Discord.GuildMember} */
+        // No concept of permissions in direct messages unfortunately
+        if (message.channel.type === "DM") return true;
         const member = useClient ? message.guild.me : message.member;
         if (useChannel) {
-            // This supports channel overrides, administrator, and guild owner https://github.com/discordjs/discord.js/blob/51551f544b80d7d27ab0b315da01dfc560b2c115/src/structures/GuildChannel.js#L153
-            return message.channel.permissionsFor(member).has(permissions, true);
+            return message.channel.permissionsFor(member, true).has(permissions, true);
         } else {
-            // checkAdmin and checkOwner options default to true https://discord.js.org/#/docs/main/stable/class/GuildMember?scrollTo=hasPermission
-            return member.hasPermission(permissions);
+            return member.permissions.has(permissions, true);
         }
     }
 
@@ -274,38 +277,22 @@ class CommandBlock extends BaseBlock {
         if (has(data, "nsfw") && !isNil(data.nsfw)) if (!isBoolean(data.nsfw)) throw new TypeError("CommandBlock#nsfw must be a boolean.");
         if (has(data, "locked") && !isNil(data.locked)) if (!isBoolean(data.locked) && !isString(data.locked) && !isArrayOfStrings(data.locked)) throw new TypeError("CommandBlock#locked must be a boolean, string, or an Array of strings.");
         if (has(data, "clientPermissions") && !isNil(data.clientPermissions)) {
-            if (isArray(data.clientPermissions)) {
-                for (const value of data.clientPermissions) {
-                    if (!isPermissionResolvable(value)) throw new TypeError("CommandBlock#clientPermissions Array must only contain PermissionResolvable");
-                }
-            } else if (!isPermissionResolvable(data.clientPermissions)) {
+            if (!isPermissionResolvable(data.clientPermissions)) {
                 throw new TypeError("CommandBlock#clientPermissions must be a PermissionResolvable");
             }
         }
         if (has(data, "clientChannelPermissions") && !isNil(data.clientChannelPermissions)) {
-            if (isArray(data.clientChannelPermissions)) {
-                for (const value of data.clientChannelPermissions) {
-                    if (!isPermissionResolvable(value)) throw new TypeError("CommandBlock#clientChannelPermissions Array must only contain PermissionResolvable");
-                }
-            } else if (!isPermissionResolvable(data.clientChannelPermissions)) {
+            if (!isPermissionResolvable(data.clientChannelPermissions)) {
                 throw new TypeError("CommandBlock#clientChannelPermissions must be a PermissionResolvable");
             }
         }
         if (has(data, "userPermissions") && !isNil(data.userPermissions)) {
-            if (isArray(data.userPermissions)) {
-                for (const value of data.userPermissions) {
-                    if (!isPermissionResolvable(value)) throw new TypeError("CommandBlock#userPermissions Array must only contain PermissionResolvable");
-                }
-            } else if (!isPermissionResolvable(data.userPermissions)) {
+            if (!isPermissionResolvable(data.userPermissions)) {
                 throw new TypeError("CommandBlock#userPermissions must be a PermissionResolvable");
             }
         }
         if (has(data, "userChannelPermissions") && !isNil(data.userChannelPermissions)) {
-            if (isArray(data.userChannelPermissions)) {
-                for (const value of data.userChannelPermissions) {
-                    if (!isPermissionResolvable(value)) throw new TypeError("CommandBlock#userChannelPermissions Array must only contain PermissionResolvable");
-                }
-            } else if (!isPermissionResolvable(data.userChannelPermissions)) {
+            if (!isPermissionResolvable(data.userChannelPermissions)) {
                 throw new TypeError("CommandBlock#userChannelPermissions must be a PermissionResolvable");
             }
         }

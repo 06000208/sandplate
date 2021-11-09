@@ -1,6 +1,10 @@
 const CommandBlock = require("../../modules/CommandBlock");
 const { numeric } = require("../../modules/regexes");
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, Permissions: { FLAGS: {
+    VIEW_CHANNEL,
+    SEND_MESSAGES,
+    EMBED_LINKS,
+} } } = require("discord.js");
 
 module.exports = new CommandBlock({
     names: ["guild"],
@@ -8,9 +12,9 @@ module.exports = new CommandBlock({
     description: "Logs a list of guilds to the console or provides info about individual guilds when queried.",
     usage: "[guild id]",
     locked: "hosts",
-    clientChannelPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
+    clientChannelPermissions: [VIEW_CHANNEL, SEND_MESSAGES, EMBED_LINKS],
 }, async function(client, message, content, [id, ...args]) {
-    if (message.channel.type === "dm" && !content) return message.channel.send("An id is required as input in direct messages");
+    if (message.channel.type === "DM" && !content) return message.channel.send("An id is required as input in direct messages");
     let guild = null;
     if (!content) {
         guild = message.guild;
@@ -24,7 +28,7 @@ module.exports = new CommandBlock({
         .setTitle(guild.name)
         .addFields(
             { name: "Link", value: `[Jump](https://discordapp.com/channels/${guild.id}/)`, inline: true },
-            { name: "Owner", value: `<@${guild.ownerID}>`, inline: true },
+            { name: "Owner", value: `<@${guild.ownerId}>`, inline: true },
         )
         .setFooter(guild.id)
         .setTimestamp(guild.createdTimestamp);
@@ -32,5 +36,5 @@ module.exports = new CommandBlock({
     if (guild.id === message.guild.id) embed.setThumbnail(guild.iconURL({ format: "png" }));
     const color = client.config.get("metadata.color").value();
     if (color) embed.setColor(color);
-    return message.channel.send(embed);
+    return message.channel.send({ embeds: [embed] });
 });
