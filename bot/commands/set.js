@@ -1,10 +1,6 @@
 const CommandBlock = require("../../modules/CommandBlock");
 const { sleep } = require("../../modules/miscellaneous");
 const log = require("../../modules/log");
-const { Permissions: { FLAGS: {
-    VIEW_CHANNEL,
-    SEND_MESSAGES,
-} } } = require("discord.js");
 const actions = {
     avatar: ["i", "icon", "a", "avatar"],
     username: ["u", "user", "name", "username"],
@@ -87,7 +83,7 @@ module.exports = [
         description: "Acts as an advanced shortcut to the `setavatar`, `setname`, `presence`, `status`, and `activity` commands.",
         usage: "[action] [input]",
         locked: "hosts",
-        clientChannelPermissions: [VIEW_CHANNEL, SEND_MESSAGES],
+        clientChannelPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES"],
     }, function(client, message, content, args) {
         if (!content) return message.channel.send(`Usage: \`${this.names[0]} ${this.usage}\``);
         const action = args[0].toLowerCase();
@@ -123,7 +119,7 @@ module.exports = [
         description: "Changes the bot's avatar. Be aware that this has a strict cool down (shared with changing the bot's name) in the discord api.",
         usage: "<image attachment/link>",
         locked: "hosts",
-        clientChannelPermissions: [VIEW_CHANNEL, SEND_MESSAGES],
+        clientChannelPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES"],
     }, async function(client, message, content, args) {
         // Avatar
         await sleep(2000); // Wait 2 seconds to give image links a higher chance of embedding
@@ -149,7 +145,7 @@ module.exports = [
         description: "Changes the bot's username. Be aware that this has a strict cool down (shared with changing the bot's avatar) in the discord api.",
         usage: "<text>",
         locked: "hosts",
-        clientChannelPermissions: [VIEW_CHANNEL, SEND_MESSAGES],
+        clientChannelPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES"],
     }, async function(client, message, content, args) {
         // Username
         if (!content) {
@@ -178,7 +174,7 @@ module.exports = [
         description: "Sets the bot's presence with raw json. Refer to the [`PresenceData`](https://discord.js.org/#/docs/main/stable/typedef/PresenceData) object for what properties and values to use. Using a codeblock with your json input is supported so long that your message contains a singular string of valid json somewhere within it.",
         usage: "<json>",
         locked: "hosts",
-        clientChannelPermissions: [VIEW_CHANNEL, SEND_MESSAGES],
+        clientChannelPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES"],
     }, async function(client, message, content, args) {
         // Presence
         if (!content) return message.channel.send(`Usage: \`${this.names[0]} ${this.usage}\`\n<https://discord.js.org/#/docs/main/stable/typedef/PresenceData>`);
@@ -194,7 +190,7 @@ module.exports = [
             return message.channel.send(`Failed to parse JSON: \`${error.message}\``);
         }
         try {
-            client.user.setPresence(data);
+            await client.user.setPresence(data);
         } catch (error) {
             log.error("[set presence]", error);
             message.react(client.config.get("metadata.reactions.negative").value());
@@ -210,7 +206,7 @@ module.exports = [
         description: "Sets the bot's status. All four statuses are supported (online, idle, do not disturb, and invisible)",
         usage: "[status]",
         locked: "hosts",
-        clientChannelPermissions: [VIEW_CHANNEL, SEND_MESSAGES],
+        clientChannelPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES"],
     }, async function(client, message, content, args) {
         // Status
         let status = "online";
@@ -224,7 +220,7 @@ module.exports = [
             }
         }
         try {
-            client.user.setStatus(status);
+            await client.user.setStatus(status);
         } catch (error) {
             log.error("[set status]", error);
             message.react(client.config.get("metadata.reactions.negative").value());
@@ -234,32 +230,32 @@ module.exports = [
         message.react(client.config.get("metadata.reactions.positive").value());
         return message.channel.send(`${!content ? "Reset" : "Updated"} status`);
     }),
-    // new CommandBlock({
-    //     names: ["activity", "setactivity"],
-    //     summary: "Set the bot's activity",
-    //     description: "Sets the bot's activity. All four activities are supported (playing, watching, listening, and streaming)",
-    //     usage: "[type] [text]",
-    //     locked: "hosts",
-    //     clientChannelPermissions: [VIEW_CHANNEL, SEND_MESSAGES],
-    // }, async function(client, message, content, args) {
-    //     const data = resolveActivity(client, content, args);
-    //     if (!data) {
-    //         message.react(client.config.get("metadata.reactions.negative").value());
-    //         return message.channel.send("Activity text must be 128 characters or shorter in length");
-    //     }
-    //     if (data.activity.type === "STREAMING" && !data.activity.url) {
-    //         message.react(client.config.get("metadata.reactions.negative").value());
-    //         return message.channel.send("To use the streaming activity, set `metadata.twitch` in the config to the username of the twitch channel you want to display");
-    //     }
-    //     try {
-    //         client.user.setPresence(data);
-    //     } catch (error) {
-    //         log.error("[set activity]", error);
-    //         message.react(client.config.get("metadata.reactions.negative").value());
-    //         return message.channel.send(`Failed to set activity, an error occurred: \`${error.message}\``);
-    //     }
-    //     log.info(`${client.user.tag}'s activity has been updated by ${message.author.tag}`);
-    //     message.react(client.config.get("metadata.reactions.positive").value());
-    //     return message.channel.send(`${!data.activity.name.length ? "Cleared" : "Updated"} activity`);
-    // }),
+    new CommandBlock({
+        names: ["activity", "setactivity"],
+        summary: "Set the bot's activity",
+        description: "Sets the bot's activity. All four activities are supported (playing, watching, listening, and streaming)",
+        usage: "[type] [text]",
+        locked: "hosts",
+        clientChannelPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES"],
+    }, async function(client, message, content, args) {
+        const data = resolveActivity(client, content, args);
+        if (!data) {
+            message.react(client.config.get("metadata.reactions.negative").value());
+            return message.channel.send("Activity text must be 128 characters or shorter in length");
+        }
+        if (data.activity.type === "STREAMING" && !data.activity.url) {
+            message.react(client.config.get("metadata.reactions.negative").value());
+            return message.channel.send("To use the streaming activity, set `metadata.twitch` in the config to the username of the twitch channel you want to display");
+        }
+        try {
+            await client.user.setPresence(data);
+        } catch (error) {
+            log.error("[set activity]", error);
+            message.react(client.config.get("metadata.reactions.negative").value());
+            return message.channel.send(`Failed to set activity, an error occurred: \`${error.message}\``);
+        }
+        log.info(`${client.user.tag}'s activity has been updated by ${message.author.tag}`);
+        message.react(client.config.get("metadata.reactions.positive").value());
+        return message.channel.send(`${!data.activity.name.length ? "Cleared" : "Updated"} activity`);
+    }),
 ];

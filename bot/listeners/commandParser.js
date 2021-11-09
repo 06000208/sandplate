@@ -6,7 +6,7 @@ const { isArray } = require("lodash");
  * @todo Should access control for unknown and blocked users be moved to their own functions?
  */
 module.exports = new ListenerBlock({
-    event: "messageCreate",
+    event: "message",
     once: false,
 }, function(client, message) {
     const configuration = client.config.get("commands").value();

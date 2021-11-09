@@ -1,44 +1,14 @@
 const Client = require("./modules/Client");
 const log = require("./modules/log");
 const fse = require("fs-extra");
-const { SnowflakeUtil, Intents } = require("discord.js");
+const { SnowflakeUtil } = require("discord.js");
 const { token } = require("./modules/regexes");
 
 // Instantiate client
 const client = new Client({
-    /**
-     * @todo discordjs-v13: It should be possible to parse content from messages that ping the bot without the GUILD_MESSAGES intent, possibly using the message partial? "Messages in which the bot is mentioned" quote from https://support-dev.discord.com/hc/en-us/articles/4404772028055
-     * @see https://discord.js.org/#/docs/main/stable/class/Intents?scrollTo=s-FLAGS
-     * @see https://discord.com/developers/docs/topics/gateway#list-of-intents
-     */
-    intents: [
-        Intents.FLAGS.GUILDS,
-        // Intents.FLAGS.GUILD_MEMBERS,
-        // Intents.FLAGS.GUILD_BANS,
-        // Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS,
-        // Intents.FLAGS.GUILD_INTEGRATIONS,
-        // Intents.FLAGS.GUILD_WEBHOOKS,
-        // Intents.FLAGS.GUILD_INVITES,
-        // Intents.FLAGS.GUILD_VOICE_STATES,
-        // Intents.FLAGS.GUILD_PRESENCES,
-        Intents.FLAGS.GUILD_MESSAGES,
-        Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-        // Intents.FLAGS.GUILD_MESSAGE_TYPING,
-        Intents.FLAGS.DIRECT_MESSAGES,
-        Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
-        // Intents.FLAGS.DIRECT_MESSAGE_TYPING,
-    ],
-    allowedMentions: {
-        parse: [],
-        users: [],
-        roles: [],
-        repliedUser: true,
-    },
-    /**
-     * @see https://discordjs.guide/additional-info/changes-in-v13.html#dm-channels
-     * @see https://discordjs.guide/popular-topics/partials.html
-     */
-    partials: ["CHANNEL"],
+    disableMentions: "all",
+    // This changes the default value for the equivalent message option, good practice imo
+    // https://discord.js.org/#/docs/main/stable/typedef/MessageOptions?scrollTo=disableMentions
 });
 
 // Token validation (config)

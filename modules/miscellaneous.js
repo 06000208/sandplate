@@ -1,11 +1,11 @@
 /**
- * This module contains a bunch of exported functions. Some are useful in general, others are for convenience and code clarity, as its sometimes simpler for logic to be a reusable function rather than writing code multiple times where needed to achieve the same result
+ * This module contains a bunch of exported functions. Some are useful in general, others are for convenience and code clarity, as it's often simpler for logic to be a reusable function rather than complicated alternatives or implementing the logic multiple times where needed to achieve the same result.
  * @module miscellaneous
  */
 
 const { promisify } = require("util");
 const { isArray, isString, isFinite } = require("lodash");
-const { Permissions, Formatters: { codeBlock }, BitField } = require("discord.js");
+const { Permissions } = require("discord.js");
 
 /**
  * Lets you "pause" for X amount of time, in milliseconds. (This is setTimeout's promise based custom variant)
@@ -21,15 +21,15 @@ module.exports.sleep = promisify(setTimeout);
  * Just a small shortcut to JSON.stringify with optional discord code block wrapping on the returned string
  * @param {Object} object
  * @param {number} [whitespace=2]
- * @param {boolean} [useCodeBlock=false]
+ * @param {boolean} [codeBlock=false]
  * @example
  * const car = {type:"Fiat", model:"500", color:"white"};
  * lovely(car); // returned string isn't wrapped, whitespace defaults to 2
  * lovely(car, 4, true); // returns string wrapped in discord codeBlock, uses 4 spaces of whitespace
  */
-module.exports.lovely = function(object, whitespace = 2, useCodeBlock = false) {
+module.exports.lovely = function(object, whitespace = 2, codeBlock = false) {
     const formatted = JSON.stringify(object, null, whitespace);
-    return useCodeBlock ? codeBlock("json", formatted) : formatted;
+    return codeBlock ? `\`\`\`json\n${formatted}\n\`\`\`` : formatted;
 };
 
 /**
@@ -49,31 +49,12 @@ module.exports.isArrayOfStrings = function(value, checkLength = true) {
 };
 
 /**
- * Checks if a value is resolvable to a permission number
- * @see https://discord.js.org/#/docs/main/stable/typedef/PermissionResolvable
+ * Checks if a value is resolvable as a permission. Does *not* include circular array checking logic. https://discord.js.org/#/docs/main/master/typedef/PermissionResolvable
  * @param {*} value
- * @returns {boolean} Returns `true` if value is a PermissionResolvable, else `false`
+ * @returns {boolean} Returns `true` if value is resolvable as a permission, else `false`
  */
 module.exports.isPermissionResolvable = function(value) {
-    if (isArray(value)) {
-        return value.every(module.exports.isPermissionResolvable);
-    } else if (isString(value) || typeof value === "bigint" || value instanceof Permissions) {
-        return true;
-    } else {
-        return false;
-    }
-};
-
-/**
- * Checks if a value is resolvable to a bitfield
- * @see https://discord.js.org/#/docs/main/stable/typedef/BitFieldResolvable
- * @param {*} value
- * @returns {boolean} Returns `true` if value is a BitFieldResolvable, else `false`
- */
-module.exports.isBitFieldResolvable = function(value) {
-    if (isArray(value)) {
-        return !value.length || value.every(module.exports.isBitFieldResolvable);
-    } else if (isString(value) || isFinite(value) || typeof value === "bigint" || value instanceof BitField) {
+    if (isString(value) || isArray(value) || isFinite(value) || value instanceof Permissions) {
         return true;
     } else {
         return false;

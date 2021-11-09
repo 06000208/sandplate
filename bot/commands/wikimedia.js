@@ -1,12 +1,5 @@
 const CommandBlock = require("../../modules/CommandBlock");
-const { MessageEmbed, Permissions: { FLAGS: {
-    VIEW_CHANNEL,
-    SEND_MESSAGES,
-    EMBED_LINKS,
-    ATTACH_FILES,
-    USE_EXTERNAL_EMOJIS,
-    ADD_REACTIONS,
-} } } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const moment = require("moment");
 const fetch = require("node-fetch");
 const fileTypes = [".png", ".jpg", ".jpeg", ".webp", ".gif"];
@@ -19,14 +12,7 @@ module.exports = new CommandBlock({
     usage: "[page id]",
     nsfw: true,
     locked: false,
-    clientChannelPermissions: [
-        VIEW_CHANNEL,
-        SEND_MESSAGES,
-        EMBED_LINKS,
-        ATTACH_FILES,
-        USE_EXTERNAL_EMOJIS,
-        ADD_REACTIONS,
-    ],
+    clientChannelPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS", "ATTACH_FILES", "ADD_REACTIONS"],
 }, async function(client, message, content, args) {
     if (client.cookies.has(`wm-rate-limit-${message.author.id}`)) {
         if (moment().isBefore(client.cookies.get(`wm-rate-limit-${message.author.id}`))) {
@@ -43,12 +29,12 @@ module.exports = new CommandBlock({
     if (color) embed.setColor(color);
     if (has(page, "missing")) {
         embed.setTitle("No page").setDescription("The queried page does not exist.");
-        return message.channel.send({ embeds: [embed] });
+        return message.channel.send(embed);
     }
     embed.setURL(`https://commons.wikimedia.org/w/index.php?curid=${page.pageid}`);
     if (!has(page, "imageinfo")) {
         embed.setTitle(page.title).setDescription("The queried page is not a file.");
-        return message.channel.send({ embeds: [embed] });
+        return message.channel.send(embed);
     }
     const { timestamp, url } = page.imageinfo[0];
     let title = page.title.replace(/\.[^/.]+$/, "").substring(5);
@@ -59,5 +45,5 @@ module.exports = new CommandBlock({
     } else {
         embed.setDescription("Cannot display this file, use the above link to view.");
     }
-    return message.channel.send({ embeds: [embed] });
+    return message.channel.send(embed);
 });

@@ -2,13 +2,6 @@ const CommandBlock = require("../../modules/CommandBlock");
 const log = require("../../modules/log");
 const { inspect } = require("util");
 const { isNil, isString } = require("lodash");
-const { Formatters: { codeBlock } } = require("discord.js");
-const { Permissions: { FLAGS: {
-    VIEW_CHANNEL,
-    SEND_MESSAGES,
-    USE_EXTERNAL_EMOJIS,
-    ADD_REACTIONS,
-} } } = require("discord.js");
 
 /*
 This command provides arbitrary javascript evaluation, and is disabled by default
@@ -41,7 +34,7 @@ module.exports = new CommandBlock({
     description: "An enormous security risk for development purposes: [arbitrary javascript evaluation](https://en.wikipedia.org/wiki/Arbitrary_code_execution). Uses [`eval()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval) under the hood.",
     usage: "<code>",
     locked: "hosts",
-    clientChannelPermissions: [VIEW_CHANNEL, SEND_MESSAGES, USE_EXTERNAL_EMOJIS, ADD_REACTIONS],
+    clientChannelPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "USE_EXTERNAL_EMOJIS", "ADD_REACTIONS"],
 }, async function(client, message, code, args) {
     if (!code) return message.react(client.config.get("metadata.reactions.negative").value());
     log.debug(`Code provided to eval from ${message.author.tag}:`, "\n" + code);
@@ -58,6 +51,6 @@ module.exports = new CommandBlock({
         return message.channel.send(`Failed to evaluate javascript, an error occurred: \`${error.message}\``);
     }
     if (cleaned && cleaned.length <= 1500) {
-        message.channel.send(codeBlock(cleaned));
+        message.channel.send(`\`\`\`\n${cleaned}\n\`\`\``);
     }
 });
