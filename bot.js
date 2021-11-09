@@ -35,12 +35,10 @@ const client = new Client({
         repliedUser: true,
     },
     /**
-     * @todo discordjs-v13: May be required to receive direct messages?
      * @see https://discordjs.guide/additional-info/changes-in-v13.html#dm-channels
      * @see https://discordjs.guide/popular-topics/partials.html
      */
     partials: ["CHANNEL"],
-    // partials: ["USER", "CHANNEL", "GUILD_MEMBER", "MESSAGE", "REACTION"],
 });
 
 // Token validation (config)
