@@ -3,10 +3,14 @@ const { numeric } = require("../../modules/regexes");
 const log = require("../../modules/log");
 const { startCase } = require("lodash");
 const { inspect } = require("util");
+const { Permissions: { FLAGS: {
+    VIEW_CHANNEL,
+    SEND_MESSAGES,
+} } } = require("discord.js");
 
-// There isn't a command for controlling users.allowed and guilds.allowed due to the potential for mishaps and misuse
-// Such as preventing all command use or causing your bot to leave all of it's guilds
-// If you want to make use of them, add ids manually or make your own command
+// There isn't a command for controlling users.allowed and guilds.allowed due to the potential
+// for mishaps and misuse, such as preventing all command use or causing your bot to leave all
+// of it's guilds. If you want to make use of them, add ids manually or write your own command
 
 const types = {
     user: ["u", "user", "users", "account", "accounts"],
@@ -37,7 +41,7 @@ module.exports = [
         description: "Prohibits a user or guild from interacting with the bot.",
         usage: "user/guild <id>",
         locked: "hosts",
-        clientChannelPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES"],
+        clientChannelPermissions: [VIEW_CHANNEL, SEND_MESSAGES],
     }, async function(client, message, content, [type, id, ...args]) {
         if (!content) return message.channel.send(`Usage: \`${this.names[0]} ${this.usage}\``);
         const group = determineType(type);
@@ -59,7 +63,7 @@ module.exports = [
         description: "Restore a user or guild's access to the bot.",
         usage: "user/guild <id>",
         locked: "hosts",
-        clientChannelPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES"],
+        clientChannelPermissions: [VIEW_CHANNEL, SEND_MESSAGES],
     }, function(client, message, content, [type, id, ...args]) {
         if (!content) return message.channel.send(`Usage: \`${this.names[0]} ${this.usage}\``);
         const group = determineType(type);
@@ -81,7 +85,7 @@ module.exports = [
         description: "Create user groups and toggle ids in/out of them.",
         usage: "<group> [id]",
         locked: "hosts",
-        clientChannelPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES"],
+        clientChannelPermissions: [VIEW_CHANNEL, SEND_MESSAGES],
     }, function(client, message, content, args) {
         if (!content) return message.channel.send(`Usage: \`${this.names[0]} ${this.usage}\``);
         const name = args[0].toLowerCase();

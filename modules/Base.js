@@ -2,6 +2,7 @@ const { SnowflakeUtil, Util } = require("discord.js");
 
 /**
  * @abstract
+ * @todo This needs rewritten
  */
 class Base {
     constructor() {
