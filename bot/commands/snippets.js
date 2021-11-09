@@ -1,14 +1,12 @@
 const CommandBlock = require("../../modules/CommandBlock");
 const log = require("../../modules/log");
 const chalk = require("chalk");
+const { MessageEmbed, Permissions } = require("discord.js");
 const package = require("../../package.json");
-const { version: discordVersion, Team, MessageEmbed, Permissions, Permissions: { FLAGS: {
-    VIEW_CHANNEL,
-    SEND_MESSAGES,
-    EMBED_LINKS,
-} } } = require("discord.js");
+const Discord = require("discord.js");
 const { randomBytes } = require("crypto");
 const moment = require("moment");
+const { has } = require("lodash");
 
 const snippets = {
     guilds: function(client, message, content, args) {
@@ -27,13 +25,13 @@ const snippets = {
     info: function(client, message, content, args) {
         const embed = new MessageEmbed()
             .setTitle("Developer Info")
-            .setDescription(`${client.user} v${package.version}\n[node.js](https://nodejs.org/) ${process.version}\n[discord.js](https://discord.js.org/) v${discordVersion}\n[memory](https://nodejs.org/api/process.html#process_process_memoryusage) ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB\n[platform](https://nodejs.org/api/process.html#process_process_platform) ${process.platform}\n[sandplate](https://github.com/06000208/sandplate)`);
+            .setDescription(`${client.user} v${package.version}\n[node.js](https://nodejs.org/) ${process.version}\n[discord.js](https://discord.js.org/) v${Discord.version}\n[memory](https://nodejs.org/api/process.html#process_process_memoryusage) ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB\n[platform](https://nodejs.org/api/process.html#process_process_platform) ${process.platform}\n[sandplate](https://github.com/06000208/sandplate)`);
         const color = client.config.get("metadata.color").value();
         if (color) embed.setColor(color);
-        message.channel.send({ embeds: [embed] });
+        message.channel.send(embed);
     },
     emoji: function(client, message, content, args) {
-        if (message.channel.type === "DM") return message.channel.send("No custom emojis for direct messages");
+        if (message.channel.type === "dm") return message.channel.send("No custom emojis for direct messages");
         message.channel.send(message.guild.emojis.cache.map(emoji=>emoji.toString()).join(" "));
     },
     ascii: function(client, message, content, args) {
@@ -66,29 +64,24 @@ const snippets = {
             .setFooter("Italic permissions are channel overwrites");
         const color = client.config.get("metadata.color").value();
         if (color) embed.setColor(color);
-        message.channel.send({ embeds: [embed] });
+        message.channel.send(embed);
     },
     user: async function(client, message, content, args) {
+        const application = await client.fetchApplication();
+        const team = has(application.owner, "members");
         const embed = new MessageEmbed()
             .setTitle(client.user.tag)
             .setThumbnail(client.user.avatarURL({ format: "png" }))
             .addFields(
-                { name: "Public Invite", value: client.application.botPublic, inline: true },
+                { name: team ? "Team Owner" : "Owner", value: `<@${team ? application.owner.owner.id : application.owner.id}>`, inline: true },
+                { name: "Public", value: application.botPublic, inline: true },
                 { name: "Verified", value: client.user.verified, inline: true },
             )
             .setFooter(client.user.id)
             .setTimestamp(client.user.createdTimestamp);
-        if (client.application.owner) {
-            if (client.application.owner instanceof Team) {
-                if (client.application.owner.ownerid) embed.addField("Team Owner", `<@${client.application.owner.ownerid}>`, true);
-                embed.addField("Team Members", `<@${[ ...client.application.owner.members ].filter(id => id !== client.application.owner.ownerid).join(">\n<@")}>`, true);
-            } else {
-                embed.addField("Owner", `<@${client.application.owner.id}>`, true);
-            }
-        }
         const color = client.config.get("metadata.color").value();
         if (color) embed.setColor(color);
-        message.channel.send({ embeds: [embed] });
+        message.channel.send(embed);
     },
 };
 
@@ -98,7 +91,7 @@ module.exports = new CommandBlock({
     description: null,
     usage: "<snippet name> [args]",
     locked: "hosts",
-    clientChannelPermissions: [VIEW_CHANNEL, SEND_MESSAGES, EMBED_LINKS],
+    clientChannelPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
 }, function(client, message, content, [choice, args]) {
     const keys = Object.keys(snippets);
     const list = "`" + keys.join("`, `") + "`";

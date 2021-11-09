@@ -3,7 +3,6 @@ const { SnowflakeUtil, Util } = require("discord.js");
 
 /**
  * @abstract
- * @todo This needs rewritten
  */
 class BaseEventEmitter extends EventEmitter {
     constructor(...args) {

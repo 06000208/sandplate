@@ -1,11 +1,5 @@
 *Changes which act as deprecation warnings or are breaking changes are prefixed with* ⚠️ 
 
-## 0.0.8 (20XX-XX-XX)
-
-_The changelog for this version is incomplete and being written in tandem with the development of this version. Things may be incorrect._
-
-- ⚠️ Updated discord.js to v13.3.1, this comes with breaking changes and different dependencies. Refer to [Updating from v12 to v13](https://discordjs.guide/additional-info/changes-in-v13.html) for what you'll need to change.
-
 ## 0.0.7 (2021-11-03)
 
 - ⚠️ Bumped minimum node.js version from v12 to v16.6, matching the minimum for discord.js v13, and updated eslint's configuration to support es2021
@@ -16,7 +10,7 @@ _The changelog for this version is incomplete and being written in tandem with t
 - ⚠️ In 0.0.8 and above, much of the how configuration works will change. See [issue #35](https://github.com/06000208/sandplate/issues/35) for details.
 
 - ⚠️ In 0.0.8 and above, sandplate will use [ECMAScript modules](https://nodejs.org/api/esm.html) rather than [commonjs modules](https://nodejs.org/api/modules.html).
-  - Updated all npm dependencies to latest major, except for lowdb v3, discordjs v13, and node-fetch v3 as these will require ESM migration and be handled in 0.0.8
+  - Updated all npm dependencies to latest major, except for lowdb v3, discord v13, and node-fetch v3 as these will require ESM migration and be handled in 0.0.8
 
 - Several parts of the bot have received attention, closing [#21](https://github.com/06000208/sandplate/issues/21)
   - Note that the "resolver functions" idea included in that issue [has not been done](https://github.com/06000208/sandplate/issues/21#issuecomment-957185039), and will have it's own in 0.0.8

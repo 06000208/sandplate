@@ -1,15 +1,10 @@
 const CommandBlock = require("../../modules/CommandBlock");
-const { MessageEmbed, Formatters: { codeBlock }, Permissions: { FLAGS: {
-    VIEW_CHANNEL,
-    SEND_MESSAGES,
-    EMBED_LINKS,
-} } } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const log = require("../../modules/log");
 const { isArray } = require("lodash");
 
-/** @todo This would be better exported from somewhere else */
 const commandPredicate = function(message, command) {
-    if (!CommandBlock.checkMessagePermissions(message, command.userPermissions, false, false)) return false;
+    if (!command.checkPermissions(message, command.userPermissions, false, false)) return false;
     if (!command.checkLocked(message)) return false;
     return true;
 };
@@ -19,21 +14,21 @@ module.exports = new CommandBlock({
     summary: "Lists commands & provides command info",
     description: "Provides a list of commands or info about individual commands when queried.",
     usage: "[command]",
-    clientChannelPermissions: [VIEW_CHANNEL, SEND_MESSAGES, EMBED_LINKS],
+    clientChannelPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
 }, function(client, message, content, args) {
     if (!content) {
         /** @type {Collection<Snowflake, CommandBlock>} */
         const commands = client.commands.cache.filter(command => commandPredicate(message, command));
         /** @type {Array<String>} */
         const names = commands.map(command => command.names[0]);
-        const text = `🔍 To query command info, use \`${this.names[0]} ${this.usage}\`\n${codeBlock(names.join(", "))}`;
+        const text = `🔍 To query command info, use \`${this.names[0]} ${this.usage}\`\n\`\`\`\n${names.join(", ")}\n\`\`\``;
         if (text.length > 1900) return log.warn("[help] The command list has exceeded 1900 characters in length and is no longer usable!");
         const embed = new MessageEmbed()
             .setTitle("Command List")
             .setDescription(text);
         const color = client.config.get("metadata.color").value();
         if (color) embed.setColor(color);
-        return message.channel.send({ embeds: [embed] });
+        return message.channel.send(embed);
     } else {
         const name = content.toLowerCase();
         if (!client.commands.index.has(name)) return message.channel.send(`Command \`${content}\` not found`);
@@ -49,12 +44,12 @@ module.exports = new CommandBlock({
             .setTitle(command.names[0])
             .setDescription(command.description || command.summary || "No description provided")
             .addField("Usage", `\`${command.names[0]}${command.usage ? " " + command.usage : ""}\``, true);
-        if (!command.channelTypes.includes("DM")) embed.addField("Direct Messages", "Disallowed", true);
-        if (!command.channelTypes.includes("GUILD_TEXT")) embed.addField("Guilds", "Disallowed", true);
+        if (!command.channelTypes.includes("dm")) embed.addField("Direct Messages", "Disallowed", true);
+        if (!command.channelTypes.includes("text")) embed.addField("Guilds", "Disallowed", true);
         if (command.nsfw) embed.addField("NSFW", "True", true);
         if (command.names.length > 1) embed.setFooter(command.names.slice(1).join(", "));
         const color = client.config.get("metadata.color").value();
         if (color) embed.setColor(color);
-        return message.channel.send({ embeds: [embed] });
+        return message.channel.send(embed);
     }
 });

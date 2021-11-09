@@ -1,10 +1,6 @@
 const CommandBlock = require("../../modules/CommandBlock");
 const log = require("../../modules/log");
 const { numeric } = require("../../modules/regexes");
-const { Permissions: { FLAGS: {
-    VIEW_CHANNEL,
-    SEND_MESSAGES,
-} } } = require("discord.js");
 
 module.exports = new CommandBlock({
     names: ["leave"],
@@ -12,7 +8,7 @@ module.exports = new CommandBlock({
     description: "Instruct the bot to leave a specific guild.",
     usage: "<id>",
     locked: "hosts",
-    clientChannelPermissions: [VIEW_CHANNEL, SEND_MESSAGES],
+    clientChannelPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES"],
 }, async function(client, message, content, args) {
     if (!content) return message.channel.send(`Arguments are required\nUsage: \`${this.names[0]} ${this.usage}\``);
     if (!numeric.test(content)) return message.channel.send(`The id \`${content}\` was invalid`);
@@ -20,7 +16,7 @@ module.exports = new CommandBlock({
     const guild = client.guilds.cache.get(content);
     if (!guild.available) return message.channel.send("The guild was unavailable and could not be interacted with. This is indicative of a server outage.");
     if (guild.deleted) return message.channel.send(`I have already left or been kicked from "${guild.name}" (${guild.id})`);
-    if (client.user.id === guild.ownerId) return message.channel.send("I own the specified guild and cannot leave without transferring ownership.");
+    if (client.user.id === guild.ownerID) return message.channel.send("I own the specified guild and cannot leave without transferring ownership.");
     try {
         await guild.leave();
     } catch (error) {

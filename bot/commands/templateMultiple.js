@@ -1,25 +1,20 @@
 const CommandBlock = require("../../modules/CommandBlock");
 const log = require("../../modules/log");
-const { Permissions: { FLAGS: {
-    VIEW_CHANNEL,
-    SEND_MESSAGES,
-} } } = require("discord.js");
 
 // all keys other than names can be set to null or omitted for default value
 // refer to CommandBlock.js for documentation
 
-/** @todo This template should correspond with CommandBlock defaults */
 module.exports = [
     new CommandBlock({
         names: ["template_a"],
         summary: null,
         description: null,
         usage: null,
-        channelTypes: ["DM", "GUILD_TEXT", "GUILD_NEWS", "GUILD_NEWS_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_PRIVATE_THREAD"],
+        channelTypes: ["dm", "text", "news"],
         nsfw: false,
         locked: false,
         clientPermissions: null,
-        clientChannelPermissions: [VIEW_CHANNEL, SEND_MESSAGES],
+        clientChannelPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES"],
         userPermissions: null,
         userChannelPermissions: null,
     }, function(client, message, content, args) {
@@ -32,11 +27,11 @@ module.exports = [
         summary: null,
         description: null,
         usage: null,
-        channelTypes: ["DM", "GUILD_TEXT", "GUILD_NEWS", "GUILD_NEWS_THREAD", "GUILD_PUBLIC_THREAD", "GUILD_PRIVATE_THREAD"],
+        channelTypes: ["dm", "text", "news"],
         nsfw: false,
         locked: false,
         clientPermissions: null,
-        clientChannelPermissions: [VIEW_CHANNEL, SEND_MESSAGES],
+        clientChannelPermissions: ["VIEW_CHANNEL", "SEND_MESSAGES"],
         userPermissions: null,
         userChannelPermissions: null,
     }, async function(client, message, content, args) {

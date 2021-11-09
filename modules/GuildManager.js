@@ -19,7 +19,7 @@ class GuildManager extends Discord.GuildManager {
      */
     async leaveGuild(guild, event = null) {
         if (!guild || !guild.available || guild.deleted) return;
-        if (this.client.user.id === guild.ownerId) return log.warn(`${event ? chalk.gray(`[${event}]`) : ""} ${this.client.user.tag} failed to leave guild "${guild.name}" (${guild.id}) as it owns the guild and must first transfer ownership`);
+        if (this.client.user.id === guild.ownerID) return log.warn(`${event ? chalk.gray(`[${event}]`) : ""} ${this.client.user.tag} failed to leave guild "${guild.name}" (${guild.id}) as it owns the guild and must first transfer ownership`);
         try {
             await guild.leave();
         } catch (error) {
