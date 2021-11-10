@@ -1,6 +1,11 @@
+const fs = require("fs");
+const path = require("path");
+const process = require("process");
+const dotenv = require("dotenv");
+const Discord = require("discord.js");
 const log = require("./modules/log");
 const package = require("./package.json");
-const Discord = require("discord.js");
+const { obscureObjectCredentials, parseCommaDelimitedString } = require("./modules/miscellaneous");
 
 // node.js process event listeners (if you can improve these, please contribute!)
 // https://nodejs.org/api/process.html (list is under Process Events)
@@ -25,6 +30,18 @@ if (Number(nodeMajor) < 16 || Number(nodeMinor[1]) < 6) {
     process.exit(1);
 } else {
     log.info(`Starting ${package.name} v${package.version} using node.js ${process.version} and discord.js v${Discord.version} on ${process.platform}`);
+}
+
+const envName = "";
+const envFile = envName + ".env";
+const envPath = path.join(__dirname, envFile);
+
+if (fs.existsSync(envPath)) {
+    const result = dotenv.config({ path: envPath });
+    console.log(result);
+    if (result.parsed) log.info(`Loaded environment variables from "${envFile}":`, obscureObjectCredentials(result.parsed, process.env.OBSCURED_VARIABLES ? parseCommaDelimitedString(process.env.OBSCURED_VARIABLES) : []));
+} else {
+    log.info(`Skipped loading environment variables from file, no "${envFile}" file to load`);
 }
 
 // Work in progress
