@@ -44,5 +44,7 @@ if (fs.existsSync(envPath)) {
     log.info(`Skipped loading environment variables from file, no "${envFile}" file to load`);
 }
 
+log.info(process.env.NODE_ENV === "development" ? "Running in a development environment (NODE_ENV set to \"development\")" : "Running in a standard or production environment (NODE_ENV unset/unrecognized)");
+
 // Work in progress
 require("./bot");
