@@ -22,7 +22,7 @@ process.on("exit", (code) => code === 0 ? log.info("Exiting peacefully") : log.w
 // version < minVersion
 const [nodeMajor, nodeMinor] = process.version.slice(1).split(".");
 const [discordMajor, discordMinor] = Discord.version.split(".");
-if (Number(nodeMajor) < 16 || Number(nodeMinor[1]) < 6) {
+if (Number(nodeMajor) < 16 || Number(nodeMinor) < 6) {
     log.fatal(`node.js v16.6+ is required, currently ${process.version}`);
     process.exit(1);
 } else if (Number(discordMajor) < 13 || Number(discordMinor) < 3) {
