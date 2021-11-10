@@ -38,8 +38,7 @@ const envPath = path.join(__dirname, envFile);
 
 if (fs.existsSync(envPath)) {
     const result = dotenv.config({ path: envPath });
-    console.log(result);
-    if (result.parsed) log.info(`Loaded environment variables from "${envFile}":`, obscureObjectCredentials(result.parsed, process.env.OBSCURED_VARIABLES ? parseCommaDelimitedString(process.env.OBSCURED_VARIABLES) : []));
+    if (result.parsed) log.info(`Loaded environment variables from "${envFile}":`, process.env.NODE_ENV === "development" ? obscureObjectCredentials(result.parsed, process.env.OBSCURED_VARIABLES ? parseCommaDelimitedString(process.env.OBSCURED_VARIABLES) : []) : Object.keys(result.parsed));
 } else {
     log.info(`Skipped loading environment variables from file, no "${envFile}" file to load`);
 }
