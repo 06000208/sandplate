@@ -1,11 +1,13 @@
 /**
  * This module contains a bunch of exported functions. Some are useful in general, others are for convenience and code clarity, as its sometimes simpler for logic to be a reusable function rather than writing code multiple times where needed to achieve the same result
  * @module miscellaneous
+ * @todo quality-control: Many of the things in this module should be elsewhere after restructure
  */
 
 const { promisify } = require("util");
 const { isArray, isString, isFinite } = require("lodash");
 const { Permissions, Formatters: { codeBlock }, BitField } = require("discord.js");
+const { discordToken } = require("./regexes");
 
 /**
  * Lets you "pause" for X amount of time, in milliseconds. (This is setTimeout's promise based custom variant)
@@ -136,4 +138,39 @@ module.exports.forAny = function(callback, value, ...params) {
     } else {
         callback(value, ...params);
     }
+};
+
+/**
+ * Returns a string of the same length containing only asterisks
+ * @param {string} value
+ * @returns {string}
+ */
+module.exports.obscureString = (value) => "*".repeat(value.length);
+
+/**
+ * Obscures a discord token, inspired by [this snippet](https://github.com/discordjs/discord.js/blob/5ec04e077bbbb9799f3ef135cade84b77346ef20/src/client/Client.js#L232-L235) in discord.js' source code
+ * @param {string} token
+ * @returns {string}
+ */
+module.exports.obscureDiscordToken = (token) => token
+    .split(".")
+    .map((value, index) => (index > 0 ? module.exports.obscureString(value) : value))
+    .join(".");
+
+/**
+ * Obscures identifiable credentials (such as discord bot tokens) in a simple object's values, returning a new object. May optionally take an array of keys that should be fully obscured
+ * @param {object} target
+ * @param {array[]} names
+ * @returns {object}
+ * @todo Support nested properties?
+ */
+module.exports.obscureObjectCredentials = function(target, names = []) {
+    const keys = names.map(name => name.toLowerCase());
+    return Object.fromEntries(
+        Object.entries(target).map(([key, value]) => {
+            if (keys.includes(key.toLowerCase())) return [key, module.exports.obscureString(value)];
+            if (discordToken.test(value)) return [key, module.exports.obscureDiscordToken(value)];
+            return [key, value];
+        }),
+    );
 };
