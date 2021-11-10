@@ -174,3 +174,10 @@ module.exports.obscureObjectCredentials = function(target, names = []) {
         }),
     );
 };
+
+/**
+ * Parses a comma delimited string into an array. Intended for use with environment variables, handles excess whitespace, does not handle quotation marks or parsing numbers
+ * @param {string} value
+ * @returns {string[]}
+ */
+module.exports.parseCommaDelimitedString = (value) => value.split(",").map(element => element.trim());
