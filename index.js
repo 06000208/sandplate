@@ -14,12 +14,14 @@ process.on("warning", (warning) => log.warn(warning));
 process.on("exit", (code) => code === 0 ? log.info("Exiting peacefully") : log.warn("Exiting abnormally with code:", code));
 
 // node.js and discord.js version checks
-const nodeVersion = process.version.slice(1).split(".");
-if (Number(nodeVersion[0]) < 16 || Number(nodeVersion[1]) < 6) { // version < minVer
+// version < minVersion
+const [nodeMajor, nodeMinor] = process.version.slice(1).split(".");
+const [discordMajor, discordMinor] = Discord.version.split(".");
+if (Number(nodeMajor) < 16 || Number(nodeMinor[1]) < 6) {
     log.fatal(`node.js v16.6+ is required, currently ${process.version}`);
     process.exit(1);
-} else if (Number(Discord.version.split(".")[0]) < 12) { // version < minVer
-    log.fatal(`discord.js v12+ is required, currently v${Discord.version}`);
+} else if (Number(discordMajor) < 13 || Number(discordMinor) < 3) {
+    log.fatal(`discord.js v13.3+ is required, currently v${Discord.version}`);
     process.exit(1);
 } else {
     log.info(`Starting ${package.name} v${package.version} using node.js ${process.version} and discord.js v${Discord.version} on ${process.platform}`);
