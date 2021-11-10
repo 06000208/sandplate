@@ -2,7 +2,7 @@ const Client = require("./modules/Client");
 const log = require("./modules/log");
 const fse = require("fs-extra");
 const { SnowflakeUtil, Intents } = require("discord.js");
-const { token } = require("./modules/regexes");
+const { discordToken } = require("./modules/regexes");
 
 // Instantiate client
 const client = new Client({
@@ -43,7 +43,7 @@ const client = new Client({
 
 // Token validation (config)
 if (client.config.get("client.token").value() !== null) {
-    if (token.test(client.config.get("client.token").value())) {
+    if (discordToken.test(client.config.get("client.token").value())) {
         log.info("Token stored in the config successfully matched token regex, will attempt to login");
     } else {
         const id = SnowflakeUtil.generate();
@@ -59,7 +59,7 @@ if (client.config.get("client.token").value() !== null) {
 const argv = process.argv.slice(2);
 if (argv.length) {
     if (argv.length > 1) log.warn("Regarding command line arguments, only using the first argument to pass in a token is supported. All further arguments are ignored.");
-    if (token.test(argv[0])) {
+    if (discordToken.test(argv[0])) {
         log.info("Command line argument matched token regex, will attempt to login");
         client.cookies.set("token", argv[0]);
     } else {
