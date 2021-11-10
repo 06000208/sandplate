@@ -1,3 +1,4 @@
+/** @todo quality-control: Module needs a complete rewrite */
 const CommandBlock = require("../../modules/CommandBlock");
 const { sleep } = require("../../modules/miscellaneous");
 const log = require("../../modules/log");

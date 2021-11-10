@@ -22,11 +22,12 @@ module.exports = new CommandBlock({
     clientChannelPermissions: [VIEW_CHANNEL, SEND_MESSAGES, EMBED_LINKS],
 }, function(client, message, content, args) {
     if (!content) {
-        /** @type {Collection<Snowflake, CommandBlock>} */
+        /** @type {import("discord.js").Collection<import("discord.js").Snowflake, CommandBlock>} */
         const commands = client.commands.cache.filter(command => commandPredicate(message, command));
         /** @type {Array<String>} */
         const names = commands.map(command => command.names[0]);
         const text = `🔍 To query command info, use \`${this.names[0]} ${this.usage}\`\n${codeBlock(names.join(", "))}`;
+        /** @todo quality-control: Descriptions in embeds were increased, so this should work up to 3950 characters now, as well as respond to the user informing them of the issue */
         if (text.length > 1900) return log.warn("[help] The command list has exceeded 1900 characters in length and is no longer usable!");
         const embed = new MessageEmbed()
             .setTitle("Command List")

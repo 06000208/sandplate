@@ -1,3 +1,4 @@
+/** @todo quality-control: Module needs a complete rewrite */
 const { Formatters: { codeBlock }, Permissions: { FLAGS: {
     VIEW_CHANNEL,
     SEND_MESSAGES,
