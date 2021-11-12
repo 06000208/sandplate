@@ -6,7 +6,7 @@ It's purpose is to cover all the basics of a discord bot's internals, such as, b
 
 <!-- Command line application frontend -->
 <!-- Modular structure with optional features; only make use of what you want -->
-- Logging in with either a persisted token (stored in the config) or non-persisted (command prompt argument) <!-- (via environment file)>
+- Logging in with either a persisted token (stored in the config) or non-persisted (command prompt argument) <!-- (environment variables/.env file) (command line arguments) -->
 - Framework for commands and event modules (also known as a command handler)
 - Reloadable command and event modules
 - Command access control
