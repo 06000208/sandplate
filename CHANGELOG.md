@@ -1,10 +1,12 @@
-*Changes which act as deprecation warnings or are breaking changes are prefixed with* ⚠️ 
+*Breaking changes and deprecation warnings are prefixed with* ⚠️ 
 
 ## 0.0.8 (20XX-XX-XX)
 
-_The changelog for this version is incomplete and being written in tandem with the development of this version. Things may be incorrect._
+_The changelog for this version is incomplete and written in tandem with the development of this version. Things may be incorrect or missing._
 
-- ⚠️ Updated discord.js to v13.3.1, this comes with breaking changes and different dependencies. Refer to [Updating from v12 to v13](https://discordjs.guide/additional-info/changes-in-v13.html) for what you'll need to change.
+- ⚠️ Bumped minimum node.js version from v16.6 to v16.9, matching the minimum for future versions of discord.js
+  
+- ⚠️ Updated discord.js to v13.6.0, this comes with breaking changes and different dependencies. Refer to [Updating from v12 to v13](https://discordjs.guide/additional-info/changes-in-v13.html) for what you'll need to change.
 
 ## 0.0.7 (2021-11-03)
 

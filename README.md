@@ -1,11 +1,11 @@
 # Sandplate (Initial Development)
 
-Sandplate is an opinionated boilerplate/template [discord.js](https://discord.js.org) bot, intended to be used as a base to expand upon.
+Sandplate is an opinionated chat bot template & sandbox, intended to be used as a base to expand upon and quickly iterating on ideas. <!-- List various chat services here.. -->
 
 It's purpose is to cover all the basics of a discord bot's internals, such as, but not limited to:
 
 <!-- Command line application frontend -->
-<!-- Modular structure with optional features; only make use of what you want -->
+<!-- Highly modular; only make use of what you want -->
 - Logging in with either a persisted token (stored in the config) or non-persisted (command prompt argument) <!-- (environment variables/.env file) (command line arguments) -->
 - Framework for commands and event modules (also known as a command handler)
 - Reloadable command and event modules
@@ -13,9 +13,9 @@ It's purpose is to cover all the basics of a discord bot's internals, such as, b
 - Blocking users or guilds from interacting with the bot
 - Supporting any number of command prefixes alongside @mention support
 - A full set of default commands and event listeners written in the framework
-- Improved console logging (timestamps and labels)
 <!-- Logging to file -->
 <!-- Bash and batch scripts for setting up your bot as a service on linux and windows -->
+<!-- Programmatically managing discord.js clients, etc. -->
 
 This way, you don't need to write these things in full yourself, they're available to expand upon and use whatever your purpose, and you can merge fixes/improvements from this repository as they occur.
 
