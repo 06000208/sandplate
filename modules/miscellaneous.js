@@ -1,6 +1,7 @@
 /**
  * This module contains a bunch of exported functions. Some are useful in general, others are for convenience and code clarity, as its sometimes simpler for logic to be a reusable function rather than writing code multiple times where needed to achieve the same result
  * @module miscellaneous
+ * @todo quality-control: Many of the things in this module should be elsewhere after restructure
  */
 
 const { promisify } = require("util");
@@ -137,3 +138,20 @@ module.exports.forAny = function(callback, value, ...params) {
         callback(value, ...params);
     }
 };
+
+/**
+ * Returns a string of the same length containing only asterisks
+ * @param {string} value
+ * @returns {string}
+ */
+module.exports.obscureString = (value) => "*".repeat(value.length);
+
+/**
+ * Obscures a discord token, inspired by [this snippet](https://github.com/discordjs/discord.js/blob/5ec04e077bbbb9799f3ef135cade84b77346ef20/src/client/Client.js#L232-L235) in discord.js' source code
+ * @param {string} token
+ * @returns {string}
+ */
+module.exports.obscureDiscordToken = (token) => token
+    .split(".")
+    .map((value, index) => (index > 0 ? module.exports.obscureString(value) : value))
+    .join(".");

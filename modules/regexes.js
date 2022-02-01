@@ -30,8 +30,10 @@ module.exports.alphanumeric = /^[A-Za-z\d]+$/;
 
 /**
  * Matches the format for a discord authentication token from the beginning to the end of the string.
+ * @todo Is the number of characters per part guaranteed to be 24,6,27 or not?
+ * @todo This isn't affected by [this](https://stackoverflow.com/a/1520853), right?
  */
-module.exports.token = /^[\w]{24}\.[\w-]{6}\.[\w-]{27}$/;
+module.exports.discordToken = /^[\w]{24}\.[\w-]{6}\.[\w-]{27}$/;
 
 /**
  * Matches discord message URLs with capturing groups for the three ids (guild, channel, and message)
