@@ -5,7 +5,6 @@ const dotenv = require("dotenv");
 const Discord = require("discord.js");
 const log = require("./modules/log");
 const package = require("./package.json");
-const { obscureObjectCredentials, parseCommaDelimitedString } = require("./modules/miscellaneous");
 
 // node.js process event listeners (if you can improve these, please contribute!)
 // https://nodejs.org/api/process.html (list is under Process Events)
@@ -38,12 +37,12 @@ const envPath = path.join(__dirname, envFile);
 
 if (fs.existsSync(envPath)) {
     const result = dotenv.config({ path: envPath });
-    if (result.parsed) log.info(`Loaded environment variables from "${envFile}":`, process.env.NODE_ENV === "development" ? obscureObjectCredentials(result.parsed, process.env.OBSCURED_VARIABLES ? parseCommaDelimitedString(process.env.OBSCURED_VARIABLES) : []) : Object.keys(result.parsed));
+    if (result.parsed) log.info(`Loaded environment variables from "${envFile}":`, Object.keys(result.parsed));
 } else {
     log.info(`Skipped loading environment variables from file, no "${envFile}" file to load`);
 }
 
-log.info(process.env.NODE_ENV === "development" ? "Running in a development environment (NODE_ENV set to \"development\")" : "Running in a standard or production environment (NODE_ENV unset/unrecognized)");
+if (process.env.NODE_ENV === "development") log.info("Running in a development environment (NODE_ENV set to \"development\")");
 
 // Work in progress
 require("./bot");

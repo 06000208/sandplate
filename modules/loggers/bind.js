@@ -1,11 +1,11 @@
 /**
- * A logging module that provides direct access to the console.log() and console.error() functions
+ * A logging module that provides direct access to the console.log() and console.error() functions with an aesthetic logging level
  *
  * This is to provide compatibility with debuggers such as the one built into vscode
  *
  * You may modify the constants in /modules/constants/logging.js to change the styling
  *
- * This method unfortunately doesn't support:
+ * This module doesn't support:
  * - Timestamps
  * - Control over the logging level
  * - Logging to file, though you may pipe your console output to a file

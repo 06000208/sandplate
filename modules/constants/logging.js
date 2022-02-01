@@ -1,5 +1,5 @@
 /**
- * If desired you may modify this file to control constants (eg. fallback timestamp format, terminal styling, etc) used by the default logging modules
+ * If desired you may modify this file to change constants (timestamp format, terminal styling, etc) used by the default logging modules
  * @module constants/logging
  */
 
@@ -12,10 +12,13 @@ const chalk = require("chalk");
 module.exports.timestampStyle = null;
 
 /**
- * Timestamp format string used as a fallback for process.env.LOGGING_TIMESTAMP
+ * Timestamp format string
  *
- * Used with [DateTime#toFormat](https://moment.github.io/luxon/api-docs/index.html#datetimetoformat), so you may use [luxon's formatting tokens](https://moment.github.io/luxon/#/formatting?id=table-of-tokens) and escape characters by encasing them inside brackets
+ * Used with [DateTime#toFormat](https://moment.github.io/luxon/api-docs/index.html#datetimetoformat), so you may use [luxon's formatting tokens](https://moment.github.io/luxon/#/formatting?id=table-of-tokens)
+ *
+ * Escape characters by encasing them inside brackets
  * @type {string}
+ * @todo Update this to use luxon's intended method for constructing abstract date formats instead
  */
 module.exports.timestampFormat = "HH:mm:ss.SSS";
 
@@ -31,21 +34,3 @@ module.exports.styles = {
     "debug": chalk.green,
     "trace": chalk.gray,
 };
-
-/**
- * Logging levels
- *
- * Don't modify this haphazardly
- * @private
- * @readonly
- * @type {Object.<string, number>}
- */
-module.exports.levels = {
-    "fatal": 0,
-    "error": 1,
-    "warn": 2,
-    "info": 3,
-    "debug": 4,
-    "trace": 5,
-};
-

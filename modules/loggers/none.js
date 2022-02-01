@@ -1,7 +1,5 @@
 /**
- * Used to avoid/disable all logger features by aliasing the expected functions directly to console.log and console.error
- *
- * 100% compatibility with console functions
+ * Used to avoid/disable all special logging features by making the expected functions the same as console.log and console.error
  *
  * To change the logging module used throughout this project, modify /modules/log.js
  * @module loggers/none

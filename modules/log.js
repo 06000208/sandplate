@@ -1,7 +1,7 @@
 /**
- * This module is used to pipe logging to your logging module of choice, swapped below via comment
+ * This module is used to pipe logging to your logging module of choice, easily changed below via commenting
  *
- * This is provided as a compromise that's better than alternatives, and to provide the most freedom with the least amount of code change or impact on git
+ * This is a compromise attempting to provide the most freedom with the least amount of code change or impact on git
  *
  * Using this module is not mandatory, and any of the provided loggers work on their own when used directly
  *
@@ -21,8 +21,8 @@
 // directly uses console.log and console.error, compatibility with debuggers
 // module.exports = require("./loggers/none");
 
-// purely aesthetic logging level, compatibility with debuggers
+// aesthetic logging level, compatibility with debuggers
 // module.exports = require("./loggers/bind");
 
-// timestamps, functional logging level
+// aesthetic logging level, timestamps
 module.exports = require("./loggers/wrapper");

@@ -1,9 +1,10 @@
 /**
- * A quaint logging module with timestamps and logging level
+ * A quaint logging module with timestamps and aesthetic logging level
  *
  * You may modify the constants in /modules/constants/logging.js to change the styling or timestamp format
  *
- * This method unfortunately doesn't support:
+ * This module doesn't support:
+ * - Control over the logging level
  * - Logging to file, though you may pipe your console output to a file
  * - The value substitution feature of console.log
  *
@@ -11,9 +12,8 @@
  * @module loggers/wrapper
  */
 
-const process = require("process");
 const { DateTime } = require("luxon");
-const { timestampStyle, timestampFormat, styles, levels } = require("../constants/logging");
+const { timestampStyle, timestampFormat, styles } = require("../constants/logging");
 
 /**
  * @private
@@ -29,8 +29,7 @@ const timestamp = (format) => timestampStyle ? timestampStyle(DateTime.now().toF
  * @returns {void}
  */
 const log = function(level, ...args) {
-    if (process.env.LOGGING_LEVEL && levels[process.env.LOGGING_LEVEL] && levels[level] > levels[process.env.LOGGING_LEVEL]) return;
-    const prefix = timestamp(process.env.LOGGING_TIMESTAMP ? process.env.LOGGING_TIMESTAMP : timestampFormat) + " " + styles[level](level);
+    const prefix = timestamp(timestampFormat) + " " + styles[level](level);
     return level === "error" || level === "fatal" ? console.error(prefix, ...args) : console.log(prefix, ...args);
 };
 
