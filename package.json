@@ -23,7 +23,7 @@
   "dependencies": {
     "@discordjs/rest": "^0.3.0",
     "bufferutil": "^4.0.6",
-    "chalk": "^4.1.2",
+    "chalk": "^5.0.0",
     "discord-api-types": "^0.26.1",
     "discord.js": "^13.6.0",
     "dotenv": "^15.0.0",
@@ -40,5 +40,9 @@
   },
   "optionalDependencies": {
     "@discordjs/voice": "^0.8.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.8.0",
+    "eslint-plugin-import": "^2.25.4"
   }
 }
