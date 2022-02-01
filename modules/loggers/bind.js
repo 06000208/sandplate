@@ -15,7 +15,7 @@
  * @module loggers/bind
  */
 
-const { styles } = require("../constants/logging");
+import { styles } from "../constants/logging.js";
 
 /**
  * @private
@@ -24,9 +24,13 @@ const { styles } = require("../constants/logging");
  */
 const prefix = (label) => styles[label](label);
 
-module.exports.fatal = console.error.bind(console, prefix("fatal"));
-module.exports.error = console.error.bind(console, prefix("error"));
-module.exports.warn = console.log.bind(console, prefix("warn"));
-module.exports.info = console.log.bind(console, prefix("info"));
-module.exports.debug = console.log.bind(console, prefix("debug"));
-module.exports.trace = console.log.bind(console, prefix("trace"));
+const log = {
+    fatal: console.error.bind(console, prefix("fatal")),
+    error: console.error.bind(console, prefix("error")),
+    warn: console.log.bind(console, prefix("warn")),
+    info: console.log.bind(console, prefix("info")),
+    debug: console.log.bind(console, prefix("debug")),
+    trace: console.log.bind(console, prefix("trace")),
+};
+
+export { log };

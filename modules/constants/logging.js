@@ -3,13 +3,13 @@
  * @module constants/logging
  */
 
-const chalk = require("chalk");
+import chalk from "chalk";
 
 /**
  * Chalk function used for the timestamp, otherwise null for no styling
  * @type {?import("chalk").Chalk}
  */
-module.exports.timestampStyle = null;
+const timestampStyle = chalk.gray;
 
 /**
  * Timestamp format string
@@ -20,13 +20,13 @@ module.exports.timestampStyle = null;
  * @type {string}
  * @todo Update this to use luxon's intended method for constructing abstract date formats instead
  */
-module.exports.timestampFormat = "HH:mm:ss.SSS";
+const timestampFormat = "HH:mm:ss.SSS";
 
 /**
  * Chalk functions used for logging level labels
  * @type {Object.<string, import("chalk").Chalk>}
  */
-module.exports.styles = {
+const styles = {
     "fatal": chalk.bgRed.black,
     "error": chalk.red,
     "warn": chalk.yellow,
@@ -34,3 +34,5 @@ module.exports.styles = {
     "debug": chalk.green,
     "trace": chalk.gray,
 };
+
+export { timestampStyle, timestampFormat, styles };

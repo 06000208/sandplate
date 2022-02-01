@@ -5,9 +5,13 @@
  * @module loggers/none
  */
 
-module.exports.trace = console.log;
-module.exports.debug = console.log;
-module.exports.info = console.log;
-module.exports.warn = console.log;
-module.exports.error = console.error;
-module.exports.fatal = console.error;
+const log = {
+    fatal: console.error,
+    error: console.error,
+    warn: console.log,
+    info: console.log,
+    debug: console.log,
+    trace: console.log,
+};
+
+export { log };

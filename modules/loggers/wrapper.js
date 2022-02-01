@@ -12,8 +12,8 @@
  * @module loggers/wrapper
  */
 
-const { DateTime } = require("luxon");
-const { timestampStyle, timestampFormat, styles } = require("../constants/logging");
+import { DateTime } from "luxon";
+import { timestampStyle, timestampFormat, styles } from "../constants/logging.js";
 
 /**
  * @private
@@ -28,14 +28,18 @@ const timestamp = (format) => timestampStyle ? timestampStyle(DateTime.now().toF
  * @param  {...any} args
  * @returns {void}
  */
-const log = function(level, ...args) {
+const print = function(level, ...args) {
     const prefix = timestamp(timestampFormat) + " " + styles[level](level);
     return level === "error" || level === "fatal" ? console.error(prefix, ...args) : console.log(prefix, ...args);
 };
 
-module.exports.fatal = log.bind(null, "fatal");
-module.exports.error = log.bind(null, "error");
-module.exports.warn = log.bind(null, "warn");
-module.exports.info = log.bind(null, "info");
-module.exports.debug = log.bind(null, "debug");
-module.exports.trace = log.bind(null, "trace");
+const log = {
+    fatal: print.bind(null, "fatal"),
+    error: print.bind(null, "error"),
+    warn: print.bind(null, "warn"),
+    info: print.bind(null, "info"),
+    debug: print.bind(null, "debug"),
+    trace: print.bind(null, "trace"),
+};
+
+export { log };

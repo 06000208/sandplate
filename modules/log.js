@@ -3,9 +3,9 @@
  *
  * This is a compromise attempting to provide the most freedom with the least amount of code change or impact on git
  *
- * Using this module is not mandatory, and any of the provided loggers work on their own when used directly
+ * Note that any of the provided loggers work on their own when used directly
  *
- * Loggers used with this module are expected to provide the following functions:
+ * Loggers used with this module are expected export an object following functions:
  *
  * log.trace(), log.debug(), log.info(), log.warn(), log.error(), log.fatal()
  * @module log
@@ -19,10 +19,10 @@
  */
 
 // directly uses console.log and console.error, compatibility with debuggers
-// module.exports = require("./loggers/none");
+// export * from "./loggers/none.js";
 
 // aesthetic logging level, compatibility with debuggers
-// module.exports = require("./loggers/bind");
+// export * from "./loggers/bind.js";
 
 // aesthetic logging level, timestamps
-module.exports = require("./loggers/wrapper");
+export * from "./loggers/wrapper.js";
