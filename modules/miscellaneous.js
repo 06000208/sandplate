@@ -83,6 +83,7 @@ module.exports.isBitFieldResolvable = function(value) {
 
 /**
  * Logic for easier appending to arrays stored in collections
+ * @todo Remove this
  * @param {Collection} collection
  * @param {*} key
  * @param {...*} values
@@ -97,6 +98,7 @@ module.exports.collectionArrayPush = function(collection, key, ...values) {
 
 /**
  * Logic for easier removal of elements from arrays stored in collections
+ * @todo Remove this
  * @param {Collection} collection
  * @param {*} key
  * @param {...*} values
