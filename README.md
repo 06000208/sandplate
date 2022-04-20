@@ -35,7 +35,7 @@ Pull requests/code contributions are accepted & encouraged, but share your inten
 
 More details in may be found in our [contributing file](./github/CONTRIBUTING.md).
 
-This project is released with a [Contributor Code of Conduct](./github/CODE_OF_CONDUCT.md). By participating in its development, you're expected to abide by its terms. Please report unacceptable behavior to [a0600208@protonmail.com](mailto:a0600208@protonmail.com)
+This project is released with a [Contributor Code of Conduct](./github/CODE_OF_CONDUCT.md). By participating in its development, you're expected to abide by its terms. Please report unacceptable behavior to [a06000208@protonmail.com](mailto:a06000208@protonmail.com)
 
 ## Installation
 
