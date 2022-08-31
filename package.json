@@ -1,25 +1,30 @@
 {
   "name": "sandplate",
   "version": "0.0.8",
-  "description": "An opinionated chat bot template & sandbox",
-  "main": "index.js",
+  "description": "An opinionated discord.js bot template",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "clear-logs": "del logs\\*.log",
+    "test": "echo \"Error: no tests\" && exit 1",
+    "lint": "eslint . --ext .js,.mjs,.cjs",
+    "fix": "eslint . --ext .js,.mjs,.cjs --fix"
   },
+  "author": "https://github.com/06000208/sandplate/graphs/contributors",
+  "homepage": "https://github.com/06000208/sandplate#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/06000208/sandplate.git"
   },
-  "author": "https://github.com/06000208/sandplate/graphs/contributors",
-  "license": "Unlicense",
   "bugs": {
     "url": "https://github.com/06000208/sandplate/issues"
   },
-  "homepage": "https://github.com/06000208/sandplate#readme",
+  "license": "Unlicense",  
+  "main": "index.js",
+  "module": "index.js",
+  "type": "module",
   "engines": {
     "node": ">=16.9.0"
   },
-  "type": "module",
   "dependencies": {
     "@discordjs/rest": "^0.3.0",
     "bufferutil": "^4.0.6",
