@@ -2,9 +2,11 @@
   "name": "sandplate",
   "version": "0.0.8",
   "description": "An opinionated chat bot template & sandbox",
-  "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "lint": "eslint . --ext .js,.mjs,.cjs",
+    "fix": "eslint . --ext .js,.mjs,.cjs --fix",
+    "refresh-git-pkg": "npm uninstall @a06000208/handler @a06000208/commands @a06000208/discord-framework && npm install github:06000208/handler github:06000208/commands github:06000208/discord-framework"
   },
   "repository": {
     "type": "git",
@@ -16,14 +18,18 @@
     "url": "https://github.com/06000208/sandplate/issues"
   },
   "homepage": "https://github.com/06000208/sandplate#readme",
+  "main": "index.js",
   "engines": {
     "node": ">=16.9.0"
   },
   "dependencies": {
-    "@discordjs/rest": "^0.3.0",
+    "@a06000208/commands": "github:06000208/commands",
+    "@a06000208/discord-framework": "github:06000208/discord-framework",
+    "@a06000208/handler": "github:06000208/handler",
+    "@discordjs/rest": "^0.4.1",
     "bufferutil": "^4.0.6",
     "chalk": "^3.0.0",
-    "discord-api-types": "^0.26.1",
+    "discord-api-types": "^0.32.1",
     "discord.js": "^13.6.0",
     "dotenv": "^15.0.0",
     "erlpack": "github:discord/erlpack",
@@ -34,10 +40,13 @@
     "luxon": "^2.1.1",
     "moment": "^2.29.1",
     "node-fetch": "^2.6.6",
-    "utf-8-validate": "^5.0.8",
+    "utf-8-validate": "^5.0.9",
     "zlib-sync": "^0.1.7"
   },
   "optionalDependencies": {
-    "@discordjs/voice": "^0.8.0"
+    "@discordjs/voice": "^0.9.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.15.0"
   }
 }
