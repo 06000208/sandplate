@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/06000208/sandplate/issues"
   },
-  "license": "Unlicense",  
+  "license": "Unlicense",
   "main": "index.js",
   "module": "index.js",
   "type": "module",
@@ -35,7 +35,6 @@
     "erlpack": "github:discord/erlpack",
     "filehound": "^1.17.5",
     "fs-extra": "^10.0.0",
-    "lodash": "^4.17.21",
     "lowdb": "^1.0.0",
     "luxon": "^2.1.1",
     "moment": "^2.29.1",
@@ -47,7 +46,6 @@
     "@discordjs/voice": "^0.8.0"
   },
   "devDependencies": {
-    "eslint": "^8.8.0",
-    "eslint-plugin-import": "^2.25.4"
+    "eslint": "^8.8.0"
   }
 }
