@@ -4,6 +4,9 @@
   "description": "An opinionated chat bot template & sandbox",
   "scripts": {
     "start": "node index.js",
+    "deploy-commands": "node deploy.js",
+    "clear-logs": "del logs\\*.log",
+    "test": "echo \"Error: no tests\" && exit 1",
     "lint": "eslint . --ext .js,.mjs,.cjs",
     "fix": "eslint . --ext .js,.mjs,.cjs --fix",
     "refresh-git-pkg": "npm uninstall @a06000208/handler @a06000208/commands @a06000208/discord-framework && npm install github:06000208/handler github:06000208/commands github:06000208/discord-framework"
@@ -28,17 +31,13 @@
     "@a06000208/handler": "github:06000208/handler",
     "@discordjs/rest": "^0.4.1",
     "bufferutil": "^4.0.6",
-    "chalk": "^3.0.0",
-    "discord-api-types": "^0.32.1",
     "discord.js": "^13.6.0",
     "dotenv": "^15.0.0",
     "erlpack": "github:discord/erlpack",
     "filehound": "^1.17.5",
     "fs-extra": "^10.0.0",
-    "lodash": "^4.17.21",
     "lowdb": "^1.0.0",
     "luxon": "^2.1.1",
-    "moment": "^2.29.1",
     "node-fetch": "^2.6.6",
     "utf-8-validate": "^5.0.9",
     "zlib-sync": "^0.1.7"
