@@ -1,12 +1,12 @@
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { readFileSync } from "node:fs";
+import { readJson } from "fs-extra";
 
 /**
  * Used in various places, must be filename friendly on both windows and linux
  * @type {string}
  */
-export const name = "ono";
+export const name = "sandplate";
 
 /**
  * Root directory
@@ -15,26 +15,31 @@ export const name = "ono";
 export const directory = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 /**
+ * Directory of slash command modules
+ */
+export const slashCommandsDirectory = join(directory, "modules", "slashCommands");
+
+/**
  * Directory of message command modules
  */
-export const messageCommandsDirectory = "./bot/messageCommands/";
+export const messageCommandsDirectory = join(directory, "modules", "messageCommands");
 
 /**
  * Directory of event listeners
  */
-export const listenerDirectory = "./bot/listeners/";
+export const listenerDirectory = join(directory, "modules", "listeners");
 
 /**
  * @see https://docs.npmjs.com/cli/v8/configuring-npm/package-json
  * @type {Object}
  */
-export const packageData = JSON.parse(readFileSync(join(directory, "package.json")));
+export const packageData = await readJson(join(directory, "package.json"));
 
 /**
  * Current version, retrieved from package.json
  * @type {string}
  */
-export const version = packageData.version;
+export const packageVersion = packageData.version;
 
 /**
  * Object containing lowerCamelCase keyed properties set to their corrosponding
@@ -48,21 +53,14 @@ export const version = packageData.version;
  * @see https://web.archive.org/web/20220415192041id_/https://google.github.io/styleguide/shellguide.html#s7.3-constants-and-environment-variable-names
  */
 export const envFlags = {
-    "dev": "dev",
-    /** The web service's port */
-    "port": `${name}_port`,
-    /** The web service's secure port */
-    "securePort": `${name}_secure_port`,
     /** The bot's discord token */
     "discordToken": `${name}_discord_token`,
     /** The bot's discord id*/
     "client": `${name}_discord_client_id`,
     /** Ids of discord users which may run restricted commands, in a single string, separated by commas */
     "owners": `${name}_discord_owner_ids`,
-    /** Ids of discord guilds to deploy guild commands to, in a single string, separated by commas */
+    /** Ids of discord guilds to deploy guild command interactions, in a single string, separated by commas */
     "guilds": `${name}_discord_guild_ids`,
-    /** Discord id belonging to the bot's home guild*/
-    "home": `${name}_discord_home_id`,
 };
 
 /**
@@ -76,17 +74,3 @@ export const envFlags = {
  * @type {string[]}
  */
 export const environmentVariables = Array.from(Object.values(envFlags));
-
-/**
- * Port used for web services
- * @type {number}
- */
-export const port = 2323;
-
-/**
- * Port used for secure web service
- * @type {number}
- */
-export const securePort = 3434;
-
-

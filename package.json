@@ -30,7 +30,6 @@
     "@sapphire/discord-utilities": "^2.11.6",
     "bufferutil": "^4.0.6",
     "chalk": "^5.0.0",
-    "discord-api-types": "^0.26.1",
     "discord.js": "^13.10.3",
     "dotenv": "^15.0.0",
     "erlpack": "github:discord/erlpack",
@@ -38,13 +37,11 @@
     "fs-extra": "^10.0.0",
     "lowdb": "^1.0.0",
     "luxon": "^2.1.1",
-    "moment": "^2.29.1",
     "node-fetch": "^2.6.6",
+    "pino": "^8.4.2",
+    "pino-pretty": "^9.1.0",
     "utf-8-validate": "^5.0.8",
     "zlib-sync": "^0.1.7"
-  },
-  "optionalDependencies": {
-    "@discordjs/voice": "^0.8.0"
   },
   "devDependencies": {
     "eslint": "^8.8.0"

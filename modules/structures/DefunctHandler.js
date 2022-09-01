@@ -1,122 +1,54 @@
-const BaseConstruct = require("./BaseConstruct");
-const Response = require("./Response");
-const { disabledModules } = require("./defaultData");
-const log = require("./log");
-const { has, isString, isArray, isNil, cloneDeep } = require("lodash");
-const low = require("lowdb");
-const FileSync = require("lowdb/adapters/FileSync");
-const fse = require("fs-extra");
-const path = require("path");
-const filehound = require("filehound");
-const { drop } = require("lodash");
+import BaseConstruct from "../BaseConstruct";
+import { log } from "../log";
+import { join } from "path";
+import { create } from "filehound";
+import { createRequire } from "node:module";
+import { directory } from "../constants.js";
+import { has } from "../util/miscellaneous.js";
 
 /**
- * Handler framework
- *
- * As is, you shouldn't instantiate this anywhere other than in the Client class's constructor, unless you're prepared to deal with overlapping lowdb databases. This will be fixed in future versions.
+ * Defunct handler class
  */
-class Handler {
+export class DefunctHandler {
     constructor() {
-        /**
-         * Absolute path used for the modules database
-         * @type {string}
-         * @readonly
-         */
-        this.dbPath = path.join(__dirname, "..", "data", "modules.json");
-
-        /**
-         * Absolute path to the presumed working directory
-         * @type {string}
-         * @readonly
-         */
-        this.workingDirectory = path.join(__dirname, "..");
-
-        /**
-         * The amount of subfolders to trim from the beginning of paths
-         * @type {string}
-         * @readonly
-         */
-        this.folderLevels = this.workingDirectory.split(path.sep).length;
-
-        // Determine whether the modules database exists prior to using low()
-        const generating = !fse.pathExistsSync(this.dbPath);
-
-        /**
-         * Modules database via lowdb
-         */
-        this.modules = low(new FileSync(this.dbPath));
-
-        // Handle modules that were configured to be disabled by default
-        // All modules not present in the modules database are implicitly enabled (and will be added upon load)
-        if (generating) {
-            for (const trimmedPath of disabledModules) {
-                const resolvedPath = Handler.resolvePath(path.join(this.workingDirectory, trimmedPath));
-                if (!resolvedPath.success) continue;
-                // Putting the path in an array prevents periods from being interpreted as traversing the db
-                if (!this.modules.has([trimmedPath]).value()) this.modules.set([trimmedPath], false).write();
-            }
-            log.info("A database of enabled modules has been generated at ./data/modules.json");
-        }
+        this.require = createRequire(directory);
     }
 
     /**
      * @param {string} filePath
      */
     static resolvePath(filePath) {
-        if (!filePath) return new Response({ message: "Required parameters weren't supplied", success: false });
-        const obj = {};
+        if (!filePath) return new TypeError("filePath parameter is required");
+        let module;
         try {
-            obj.value = require.resolve(filePath);
+            module = this.require.resolve(filePath);
         } catch (error) {
-            obj.error = error;
-            obj.success = false;
             if (error.code === "MODULE_NOT_FOUND") {
-                obj.code = error.code;
-                obj.message = `Path "${filePath}" couldn't be resolved, module not found`;
-                log.warn("[resolvePath]", obj.message, error);
+                return null;
             } else {
-                obj.message = "Error while resolving file path";
-                log.error("[resolvePath]", error);
+                throw error;
             }
         }
-        if (has(obj, "value") && isString(obj.value)) {
-            obj.success = true;
-            obj.message = "Path successfully resolved";
-        } else if (!has(obj, "error")) {
-            obj.success = false;
-            obj.message = "Something went wrong while resolving path, but didn't result in an error";
-        }
-        return new Response(obj);
-    }
-
-    /**
-     * @param {string} filePath
-     */
-    trimPath(filePath) {
-        if (!filePath) return "";
-        const splitPath = filePath.split(path.sep);
-        if (!filePath.startsWith(this.workingDirectory)) return splitPath.join(path.posix.sep);
-        return drop(splitPath, this.folderLevels).join(path.posix.sep);
+        return module;
     }
 
     /**
      * @param {BaseConstruct} construct
-     * @param {?string} [filePath=null]
+     * @param {?string} [filePath]
      */
-    unloadModule(construct, filePath = null) {
-        if (!construct) return new Response({ message: "Required parameters weren't supplied", success: false });
-        if (construct instanceof BaseConstruct === false) return new Response({ message: "Construct provided wasn't a construct", success: false });
-        let target = null, cache = false, blocks = false, ids = [];
+    unloadModule(construct, filePath) {
+        if (!construct) return new TypeError("construct parameter is required");
+        let target = null;
+        let cache = false;
+        let blocks = false;
+        const ids = [];
         if (filePath) {
-            const resolvedPath = Handler.resolvePath(filePath);
-            if (resolvedPath.success && !resolvedPath.error) {
-                target = resolvedPath.value;
+            target = DefunctHandler.resolvePath(filePath);
+            if (target) {
                 if (has(require.cache, target)) {
                     delete require.cache[target];
                     cache = true;
                 }
-            } else {
-                return resolvedPath;
             }
         }
         if (construct.idsByPath.has(target)) {
@@ -169,7 +101,6 @@ class Handler {
      */
     loadModule(construct, mod, filePath = null, trimmedPath = null) {
         if (!construct || !mod) return new Response({ message: "Required parameters weren't supplied", success: false });
-        if (construct instanceof BaseConstruct === false) return new Response({ message: "Construct provided wasn't a construct", success: false });
         if (isArray(mod)) {
             for (const block of mod) {
                 construct.load(block, filePath, trimmedPath);
@@ -196,7 +127,6 @@ class Handler {
      */
     requireModule(construct, filePath, respectDisabled = false) {
         if (!construct || !filePath) return new Response({ message: "Required parameters weren't supplied", success: false });
-        if (construct instanceof BaseConstruct === false) return new Response({ message: "Construct provided wasn't a construct", success: false });
         const resolvedPath = Handler.resolvePath(filePath);
         if (!resolvedPath.success || resolvedPath.error) return resolvedPath;
         const trimmedPath = this.trimPath(resolvedPath.value);
@@ -253,7 +183,7 @@ class Handler {
      */
     static async searchDirectory(directoryPath) {
         if (!directoryPath) return new Response({ message: "Required parameters weren't supplied", success: false });
-        const filePaths = await filehound.create().paths(directoryPath).ext(".js").find().catch(error => {
+        const filePaths = await create().paths(directoryPath).ext(".js").find().catch(error => {
             log.error(error);
             return new Response({ message: "Error while attempting to search directory", success: false, error: error });
         });
@@ -262,7 +192,7 @@ class Handler {
         return new Response({
             message: `Found ${filePaths.length} ${!filePaths.length ? "file" : "files"} under "${directoryPath}"`,
             success: true,
-            value: filePaths.map(filePath => path.join("..", filePath)),
+            value: filePaths.map(filePath => join("..", filePath)),
         });
     }
 
@@ -273,7 +203,6 @@ class Handler {
      */
     async requireDirectory(construct, directoryPath, respectDisabled = false) {
         if (!construct || !directoryPath) return new Response({ message: "Required parameters weren't supplied", success: false });
-        if (construct instanceof BaseConstruct === false) return new Response({ message: "Construct provided wasn't a construct", success: false });
         const result = await Handler.searchDirectory(directoryPath);
         if (!result.value || !result.success) return result;
         return this.requireMultipleModules(construct, result.value, respectDisabled, directoryPath);
@@ -285,11 +214,10 @@ class Handler {
      */
     async unloadDirectory(construct, directoryPath) {
         if (!construct || !directoryPath) return new Response({ message: "Required parameters weren't supplied", success: false });
-        if (construct instanceof BaseConstruct === false) return new Response({ message: "Construct provided wasn't a construct", success: false });
         const result = await Handler.searchDirectory(directoryPath);
         if (!result.value || !result.success) return result;
         return this.unloadMultipleModules(construct, result.value, directoryPath);
     }
 }
 
-module.exports = Handler;
+export default Handler;
