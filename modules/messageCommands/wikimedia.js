@@ -1,4 +1,4 @@
-const CommandBlock = require("../../modules/CommandBlock");
+const CommandBlock = require("../CommandBlock");
 const { MessageEmbed, Permissions: { FLAGS: {
     VIEW_CHANNEL,
     SEND_MESSAGES,
