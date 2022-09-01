@@ -28,9 +28,6 @@
   "engines": {
     "node": ">=16.9.0"
   },
-  "devDependencies": {
-    "eslint": "^8.15.0"
-  },
   "dependencies": {
     "@a06000208/commands": "github:06000208/commands",
     "@a06000208/discord-framework": "github:06000208/discord-framework",
@@ -50,5 +47,8 @@
     "pino-pretty": "^9.1.0",
     "utf-8-validate": "^5.0.9",
     "zlib-sync": "^0.1.7"
+  },
+  "devDependencies": {
+    "eslint": "^8.15.0"
   }
 }
