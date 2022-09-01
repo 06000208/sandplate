@@ -1,7 +1,7 @@
 const { Message } = require("discord.js");
 const { has, defaultsDeep, isNil, isArray, isPlainObject, isFunction, isString, isBoolean } = require("lodash");
 const BaseBlock = require("./BaseBlock");
-const { isArrayOfStrings, isPermissionResolvable } = require("./miscellaneous");
+const { isArrayOfStrings, isPermissionResolvable } = require("./util/miscellaneous");
 const log = require("./log");
 const { defaultCommandData } = require("./defaultData");
 

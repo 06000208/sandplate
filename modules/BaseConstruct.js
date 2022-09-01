@@ -1,7 +1,7 @@
 const { Collection } = require("discord.js");
 const Base = require("./Base");
 const BaseBlock = require("./BaseBlock");
-const { collectionArrayPush, collectionArrayFilter } = require("./miscellaneous");
+const { collectionArrayPush, collectionArrayFilter } = require("./util/miscellaneous");
 
 /**
  * @extends {Base}

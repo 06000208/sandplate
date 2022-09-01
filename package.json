@@ -4,24 +4,26 @@
   "description": "An opinionated chat bot template & sandbox",
   "scripts": {
     "start": "node index.js",
-    "deploy-commands": "node deploy.js",
+    "deploy-interactions": "node deploy.js",
     "clear-logs": "del logs\\*.log",
     "test": "echo \"Error: no tests\" && exit 1",
     "lint": "eslint . --ext .js,.mjs,.cjs",
     "fix": "eslint . --ext .js,.mjs,.cjs --fix",
     "refresh-git-pkg": "npm uninstall @a06000208/handler @a06000208/commands @a06000208/discord-framework && npm install github:06000208/handler github:06000208/commands github:06000208/discord-framework"
   },
+  "author": "https://github.com/06000208/sandplate/graphs/contributors",
+  "homepage": "https://github.com/06000208/sandplate#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/06000208/sandplate.git"
   },
-  "author": "https://github.com/06000208/sandplate/graphs/contributors",
-  "license": "Unlicense",
   "bugs": {
     "url": "https://github.com/06000208/sandplate/issues"
   },
-  "homepage": "https://github.com/06000208/sandplate#readme",
+  "license": "Unlicense",
   "main": "index.js",
+  "module": "index.js",
+  "type": "module",
   "engines": {
     "node": ">=16.9.0"
   },
@@ -30,9 +32,11 @@
     "@a06000208/discord-framework": "github:06000208/discord-framework",
     "@a06000208/handler": "github:06000208/handler",
     "@discordjs/rest": "^1.1.0",
+    "@sapphire/discord-utilities": "^2.11.6",
     "bufferutil": "^4.0.6",
-    "discord.js": "^14.3.0",
-    "dotenv": "^16.0.2",
+    "chalk": "^5.0.0",
+    "discord.js": "^13.10.3",
+    "dotenv": "^15.0.0",
     "erlpack": "github:discord/erlpack",
     "filehound": "^1.17.5",
     "fs-extra": "^10.0.0",
@@ -40,6 +44,8 @@
     "luxon": "^3.0.3",
     "node-fetch": "^3.2.10",
     "utf-8-validate": "^5.0.9",
+    "pino": "^8.4.2",
+    "pino-pretty": "^9.1.0",
     "zlib-sync": "^0.1.7"
   },
   "optionalDependencies": {

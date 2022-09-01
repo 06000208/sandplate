@@ -20,10 +20,6 @@ class Base {
         return new Date(SnowflakeUtil.deconstruct(this.id).timestamp);
     }
 
-    toJSON(...props) {
-        return Util.flatten(this, ...props);
-    }
-
     valueOf() {
         return this.id;
     }
