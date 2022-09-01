@@ -8,6 +8,12 @@ _The changelog for this version is incomplete and written in tandem with the dev
   
 - ⚠️ Updated discord.js to v13.6.0, this comes with breaking changes and different dependencies. Refer to [Updating from v12 to v13](https://discordjs.guide/additional-info/changes-in-v13.html) for what you'll need to change.
 
+- Migrated the project to [ESM]
+
+- Removed discord version check, it was pointless
+
+- Removed the Client class in favor of discord.js's client, all the properties are now 
+
 ## 0.0.7 (2021-11-03)
 
 - ⚠️ Bumped minimum node.js version from v12 to v16.6, matching the minimum for discord.js v13, and updated eslint's configuration to support es2021
