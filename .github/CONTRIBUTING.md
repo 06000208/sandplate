@@ -1,6 +1,7 @@
 # Contributing
 
 - Bug reports, issues, and suggestions are welcome via our [issue tracker](https://github.com/06000208/sandplate/issues), and the preferred method for real time communication is [this discord server](https://discord.gg/WppqegJdTw).
+
   <a href="https://discord.gg/WppqegJdTw"><img src="https://discordapp.com/api/guilds/273550655673860106/embed.png" alt="Discord Server" /></a>
 
 - Questions may be directed [here](https://github.com/06000208/sandplate/discussions/categories/q-a) in our discussions forum or to the discord server
