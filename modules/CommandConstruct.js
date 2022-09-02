@@ -1,20 +1,19 @@
-const { Collection } = require("discord.js");
-const BaseConstruct = require("./BaseConstruct");
-const CommandBlock = require("./CommandBlock");
-const log = require("./log");
-const { isArray } = require("lodash");
+import { Collection } from "discord.js";
+import Construct from "@a06000208/handler";
+import MessageCommand from "./MessageCommand";
+import { warn } from "./log";
+import { isArray } from "lodash";
 
 /**
  * Command framework
  * @extends {BaseConstruct}
  */
-class CommandConstruct extends BaseConstruct {
+export class CommandConstruct extends Construct {
     /**
      * @param {Client} client
-     * @param {string} [name]
      */
-    constructor(client, name) {
-        super(name);
+    constructor(client) {
+        super();
 
         /**
          * Reference to the Client this CommandConstruct is for
@@ -31,36 +30,17 @@ class CommandConstruct extends BaseConstruct {
          */
 
         /**
-         * Module file paths mapped to arrays containing the ids of CommandBlocks originating from that module. If anonymous CommandBlocks were loaded, `null` is mapped to an array of their ids
+         * Module specifiers mapped to arrays containing the ids of MessageCommandBlocks originating from that module. If anonymous MessageCommandBlocks were loaded, `null` will be mapped to an array of their ids
          * @type {Collection<?string, [Snowflake]>}
          * @name CommandConstruct#idsByPath
          */
+        this.moduleSpecifiersById = new Collection();
 
         /**
          * Index of command names mapped to command ids
          * @type {Collection<string, Snowflake>}
          */
         this.index = new Collection();
-    }
-
-    /**
-     * @type {string}
-     * @readonly
-     */
-    get firstPrefix() {
-        const prefix = this.client.config.get("commands.prefix").value();
-        const mentions = this.client.config.get("commands.mentions").value();
-        if (prefix) {
-            if (isArray(prefix)) {
-                return prefix[0];
-            } else {
-                return prefix;
-            }
-        } else if (mentions) {
-            return `@${this.client.user.username} `;
-        } else {
-            return "";
-        }
     }
 
     /**
@@ -162,7 +142,6 @@ class CommandConstruct extends BaseConstruct {
     }
 }
 
-module.exports = CommandConstruct;
 
 /**
  * Emitted whenever CommandConstruct.runByName() is ran with a command name not mapped in the index. Recommended for debugging purposes only, as 99% of the time this will be unrelated messages, not attempted command use.
