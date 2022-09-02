@@ -1,11 +1,10 @@
-const ListenerBlock = require("../../modules/ListenerBlock");
-const { isArray } = require("lodash");
+import { ListenerBlock } from "@a06000208/handler";
 
 /**
  * @todo Abstract message parsing to it's own function
  * @todo Should access control for unknown and blocked users be moved to their own functions?
  */
-module.exports = new ListenerBlock({
+export default new ListenerBlock ({
     event: "messageCreate",
     once: false,
 }, function(client, message) {
@@ -38,18 +37,12 @@ module.exports = new ListenerBlock({
     const lowercase = content.toLowerCase();
     let prefixed = false;
     if (configuration.prefix) {
-        if (isArray(configuration.prefix)) {
-            for (const prefix of configuration.prefix) {
-                if (lowercase.startsWith(prefix)) {
-                    prefixed = true;
-                    content = content.substring(prefix.length).trim();
-                    break;
-                }
+        for (const prefix of configuration.prefix) {
+            if (lowercase.startsWith(prefix)) {
+                prefixed = true;
+                content = content.substring(prefix.length).trim();
+                break;
             }
-        } else if (lowercase.startsWith(configuration.prefix)) {
-            /** @todo Remove this in 0.0.8 */
-            prefixed = true;
-            content = content.substring(configuration.prefix.length).trim();
         }
     }
     if (!prefixed) {
