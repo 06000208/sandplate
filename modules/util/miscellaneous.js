@@ -27,6 +27,9 @@ export function lovely(object, whitespace = 2, useCodeBlock = false) {
 
 /**
  * Lazy clean syntax for using hasOwnProperty
+ * @param {Object} object
+ * @param {string} key
+ * @returns {boolean}
  */
 export const has = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
 
