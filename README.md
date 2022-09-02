@@ -1,39 +1,33 @@
 # Sandplate (Initial Development)
 
-Sandplate is an opinionated chat bot template & sandbox, intended to be used as a base to expand upon and quickly iterating on ideas. <!-- List various chat services here.. -->
+Sandplate is an opinionated discord.js bot template/sandbox, intended to be used as a base to expand upon or quickly iterate/try out ideas.
 
 It's purpose is to cover all the basics of a discord bot's internals, such as, but not limited to:
 
-<!-- Command line application frontend -->
-<!-- Highly modular; only make use of what you want -->
-- Logging in with either a persisted token (stored in the config) or non-persisted (command prompt argument) <!-- (environment variables/.env file) (command line arguments) -->
 - Framework for commands and event modules (also known as a command handler)
-- Reloadable command and event modules
+- <!-- Reloadable --> Message command and event modules
 - Command access control
 - Blocking users or guilds from interacting with the bot
 - Supporting any number of command prefixes alongside @mention support
 - A full set of default commands and event listeners written in the framework
-<!-- Logging to file -->
-<!-- Bash and batch scripts for setting up your bot as a service on linux and windows -->
-<!-- Programmatically managing discord.js clients, etc. -->
 
 This way, you don't need to write these things in full yourself, they're available to expand upon and use whatever your purpose, and you can merge fixes/improvements from this repository as they occur.
 
 However, the idea is *not* to skip learning how to code what sandplate does for you. Rather, to make use of sandplate properly, you'll need to know how things are implemented and familiarize yourself with the internals.
 
-Sandplate is currently in initial development, during which anything may change at any time.
+⚠️ Sandplate is currently in initial development, during which anything may change at any time.
 
 ## Contributing & Contact
 
-Bug reports, issues, and suggestions are welcome via our [issue tracker](https://github.com/06000208/sandplate/issues), and the preferred method for real time communication is [this discord server](https://discord.gg/xErQY6M).
+- Bug reports, issues, and suggestions are welcome via our [issue tracker](https://github.com/06000208/sandplate/issues), and the preferred method for real time communication is [this discord server](https://discord.gg/WppqegJdTw).
 
-<a href="https://discord.gg/xErQY6M"><img src="https://discordapp.com/api/guilds/273550655673860106/embed.png" alt="Discord Server" /></a>
+  <a href="https://discord.gg/WppqegJdTw"><img src="https://discordapp.com/api/guilds/273550655673860106/embed.png" alt="Discord Server" /></a>
 
-If you've made something using sandplate, feel free to share it on our [discussions forum](https://github.com/06000208/sandplate/discussions/categories/projects-using-sandplate)!
+- Questions may be directed [here](https://github.com/06000208/sandplate/discussions/categories/q-a) in our discussions forum or to the discord server
 
-Pull requests/code contributions are accepted & encouraged, but share your intentions via making an issue, commenting on one that exists, or joining the discord so we can discuss it beforehand 👍
+- If you've made something using sandplate, feel free to share it on our [discussions forum](https://github.com/06000208/sandplate/discussions/categories/project-showcase)!
 
-More details in may be found in our [contributing file](./github/CONTRIBUTING.md).
+- Pull requests/code contributions are accepted & encouraged, more details in may be found in our [contributing file](./github/CONTRIBUTING.md). 👍
 
 This project is released with a [Contributor Code of Conduct](./github/CODE_OF_CONDUCT.md). By participating in its development, you're expected to abide by its terms. Please report unacceptable behavior to [a06000208@protonmail.com](mailto:a06000208@protonmail.com)
 
