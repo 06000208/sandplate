@@ -1,6 +1,6 @@
 const { Team } = require("discord.js");
-const ListenerBlock = require("../../modules/ListenerBlock");
-const log = require("../../modules/log");
+const ListenerBlock = require("../ListenerBlock");
+const log = require("../log");
 
 module.exports = new ListenerBlock({
     event: "ready",
