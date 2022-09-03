@@ -2,42 +2,50 @@
   "name": "sandplate",
   "version": "0.0.8",
   "description": "An opinionated chat bot template & sandbox",
-  "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "deploy-interactions": "node deploy.js",
+    "clear-logs": "del logs\\*.log",
+    "test": "echo \"Error: no tests\" && exit 1",
+    "lint": "eslint . --ext .js,.mjs,.cjs",
+    "fix": "eslint . --ext .js,.mjs,.cjs --fix",
+    "omit-dev": "npm install --omit=dev",
+    "refresh-git-pkg": "npm uninstall @a06000208/handler @a06000208/commands @a06000208/discord-framework && npm install github:06000208/handler github:06000208/commands github:06000208/discord-framework"
   },
+  "author": "https://github.com/06000208/sandplate/graphs/contributors",
+  "homepage": "https://github.com/06000208/sandplate#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/06000208/sandplate.git"
   },
-  "author": "https://github.com/06000208/sandplate/graphs/contributors",
-  "license": "Unlicense",
   "bugs": {
     "url": "https://github.com/06000208/sandplate/issues"
   },
-  "homepage": "https://github.com/06000208/sandplate#readme",
+  "license": "Unlicense",
+  "main": "index.js",
   "engines": {
     "node": ">=16.9.0"
   },
   "dependencies": {
-    "@discordjs/rest": "^0.3.0",
+    "@a06000208/commands": "github:06000208/commands",
+    "@a06000208/discord-framework": "github:06000208/discord-framework",
+    "@a06000208/handler": "github:06000208/handler",
+    "@sapphire/discord-utilities": "^2.11.6",
     "bufferutil": "^4.0.6",
-    "chalk": "^3.0.0",
-    "discord-api-types": "^0.26.1",
-    "discord.js": "^13.6.0",
-    "dotenv": "^15.0.0",
+    "discord.js": "^14.3.0",
+    "dotenv": "^16.0.2",
     "erlpack": "github:discord/erlpack",
-    "filehound": "^1.17.5",
-    "fs-extra": "^10.0.0",
-    "lodash": "^4.17.21",
+    "filehound": "^1.17.6",
+    "fs-extra": "^10.1.0",
     "lowdb": "^1.0.0",
-    "luxon": "^2.1.1",
-    "moment": "^2.29.1",
-    "node-fetch": "^2.6.6",
-    "utf-8-validate": "^5.0.8",
+    "luxon": "^3.0.3",
+    "node-fetch": "^3.2.10",
+    "pino": "^8.4.2",
+    "pino-pretty": "^9.1.0",
+    "utf-8-validate": "^5.0.9",
     "zlib-sync": "^0.1.7"
   },
-  "optionalDependencies": {
-    "@discordjs/voice": "^0.8.0"
+  "devDependencies": {
+    "eslint": "^8.15.0"
   }
 }
