@@ -4,8 +4,8 @@ Sandplate is an opinionated discord.js bot template/sandbox, intended to be used
 
 It's purpose is to cover all the basics of a discord bot's internals, such as, but not limited to:
 
-- Framework for commands and event modules (also known as a command handler)
-- <!-- Reloadable --> Message command and event modules
+- Framework for commands and event modules (also known as command and event handlers)
+- Reloadable Message command and event modules
 - Command access control
 - Blocking users or guilds from interacting with the bot
 - Supporting any number of command prefixes alongside @mention support
